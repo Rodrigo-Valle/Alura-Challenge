@@ -1,12 +1,17 @@
-import express, { Application, Request, Response, NextFunction } from "express"
-import bodyParser from "body-parser"
-const app: Application = express()
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
-app.get("/", (req: Request, res: Response) => {
-  res.send("TS App is Running")
-})
-const PORT = 8000
-app.listen(PORT, () => {
-  console.log(`server is running on PORT ${PORT}`)
+import 'reflect-metadata'
+import 'dotenv/config';
+import { AppDataSource } from "./datasource"
+import { app } from './app';
+
+const port = process.env.APP_PORT || 8000
+
+console.log(process.env.APP_PORT)
+
+AppDataSource.initialize().then(() => {
+    console.log("DataSource initialized");
+    app.listen(port, () => {
+        console.log(`Express server has started on port ${port} . Open http://localhost:${port}/ to see results`)
+    })
+}).catch((e) => {
+    console.log(e);
 })
