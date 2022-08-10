@@ -1,14 +1,6 @@
-import { User } from "../entity";
-import { IUserRepository } from "../interface/repository/IUserRepository";
-import { IUserService } from "../interface/service/IUserService";
-import { UserRepository } from "../repository/UserRepository";
-
-// interface IUsuario {
-//     cpf: string,
-//     nome: string,
-//     email: string,
-//     senha: string,
-// }
+import { ICreateUserDTO, IUserResponseDTO } from "../dto/UserDTO";
+import { IUserRepository } from "../repository/interface/IUserRepository";
+import { IUserService } from "./interface/IUserService";
 
 export class UserService implements IUserService {
     private userRepository: IUserRepository;
@@ -17,11 +9,31 @@ export class UserService implements IUserService {
         this.userRepository = userRepository;
     }
 
-    async create({cpf, nome, email, senha}: any): Promise<any> {
-        const user = new User(undefined, cpf, nome, email, senha);
+    async create({cpf, name, email, password}: ICreateUserDTO): Promise<IUserResponseDTO> {
+        const userCreated = await this.userRepository.save({cpf, name, email, password});
 
-        const response = this.userRepository.save(user);
+        const reponse: IUserResponseDTO = {
+            id: userCreated.id,
+            name: userCreated.name,
+            email: userCreated.email
+        }
 
-        return response;
+        return reponse;
     }
+
+
+    login(email: string, password: string): Promise<any> {
+        throw new Error("Method not implemented.");
+    }
+    getUser(email: string): Promise<any> {
+        throw new Error("Method not implemented.");
+    }
+    updateUser(email: string): Promise<any> {
+        throw new Error("Method not implemented.");
+    }
+    deleteUser(email: string): Promise<any> {
+        throw new Error("Method not implemented.");
+    }
+
+
 }

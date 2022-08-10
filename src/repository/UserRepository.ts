@@ -1,13 +1,8 @@
 import { AppDataSource } from "../datasource";
+import { ICreateUserDTO } from "../dto/UserDTO";
 import { User } from "../entity";
-import { IUserRepository } from "../interface/repository/IUserRepository";
+import { IUserRepository } from "./interface/IUserRepository";
 
-interface IUsuario {
-    cpf: string,
-    nome: string,
-    email: string,
-    senha: string,
-}
 
 export class UserRepository implements IUserRepository {
     private userRepository;
@@ -16,10 +11,17 @@ export class UserRepository implements IUserRepository {
         this.userRepository = AppDataSource.getRepository(User);
     }
 
-    async save(user : IUsuario) {
-        console.log("repository")
-        const responseUser = await this.userRepository.save(user);
+    async save(user: ICreateUserDTO): Promise<User> {
+        return this.userRepository.save(user);
+    }
 
-        return responseUser;
+    getUser(userId: string): Promise<any> {
+        throw new Error("Method not implemented.");
+    }
+    updateUser(user: any): Promise<any> {
+        throw new Error("Method not implemented.");
+    }
+    deleteUser(userId: string): Promise<any> {
+        throw new Error("Method not implemented.");
     }
 }

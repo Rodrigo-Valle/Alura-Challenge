@@ -4,25 +4,25 @@ import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
 export class User {
 
     @PrimaryGeneratedColumn()
-    public id: number | undefined;
+    public id?: number;
 
     @Column()
     public cpf: string;
 
-    @Column()
-    public nome: string;
+    @Column({name: "nome"})
+    public name: string;
 
     @Column()
     public email: string;
 
-    @Column()
-    public senha:string;
+    @Column({name: "senha"})
+    public password:string;
 
-    constructor(id: number | undefined, cpf: string, nome: string, email: string, senha: string) {
+    constructor(id: number | undefined, cpf: string, name: string, email: string, password: string) {
         this.id = id
-        this.cpf = cpf,
-        this.nome = nome,
-        this.email = email,
-        this.senha = senha
+        this.cpf = cpf
+        this.name = name
+        this.email = email
+        this.password = password
     }
 }

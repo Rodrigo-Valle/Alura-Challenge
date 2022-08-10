@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { UserController } from '../controller/UserController';
-import { User } from '../entity';
 import { UserRepository } from '../repository/UserRepository';
+import { validateCreateUser } from '../schema/UserSchema/user.create.schema';
 import { UserService } from '../service/UserService';
 
 const userController = 
@@ -15,6 +15,6 @@ const routes = Router();
 
 console.log("rotas")
 
-routes.post("/user", (req: Request, res: Response) => userController.create(req, res));
+routes.post("/user", validateCreateUser, (req: Request, res: Response) => userController.create(req, res));
 
 export default routes;
