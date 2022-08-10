@@ -1,12 +1,9 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import * as bodyParser from "body-parser";
 import routes from "./router/UserRouter";
 
 const app = express();
 
-app.use(
-        bodyParser.json(),
-        routes
-    );
+app.use(bodyParser.json(), routes);
 
-export { app }
+export { app };

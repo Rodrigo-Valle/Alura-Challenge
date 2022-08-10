@@ -1,17 +1,17 @@
-import 'reflect-metadata'
-import 'dotenv/config';
-import { AppDataSource } from "./datasource"
-import { app } from './app';
+import "reflect-metadata";
+import "dotenv/config";
+import { AppDataSource } from "./datasource";
+import { app } from "./app";
 
-const port = process.env.APP_PORT || 8000
+const port = process.env.APP_PORT || 8000;
 
-console.log(process.env.APP_PORT)
-
-AppDataSource.initialize().then(() => {
-    console.log("DataSource initialized");
-    app.listen(port, () => {
-        console.log(`Express server has started on port ${port} . Open http://localhost:${port}/ to see results`)
+AppDataSource.initialize()
+    .then(() => {
+        console.log("DataSource initialized");
+        app.listen(port, () => {
+            console.log(`Express server has started on port ${port} . Open http://localhost:${port}/ to see results`);
+        });
     })
-}).catch((e) => {
-    console.log(e);
-})
+    .catch((e) => {
+        console.log(e);
+    });

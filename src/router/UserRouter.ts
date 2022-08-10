@@ -1,20 +1,15 @@
-import { Router, Request, Response } from 'express';
-import { UserController } from '../controller/UserController';
-import { UserRepository } from '../repository/UserRepository';
-import { validateCreateUser } from '../schema/UserSchema/user.create.schema';
-import { UserService } from '../service/UserService';
+import { Router, Request, Response } from "express";
+import { UserController } from "../controller/UserController";
+import { UserRepository } from "../repository/UserRepository";
+import { validateCreateUserSchema, validateLoginUserSchema } from "../schema/UserSchema";
+import { TokenService } from "../service/tokenService";
+import { UserService } from "../service/UserService";
 
-const userController = 
-    new UserController(
-        new UserService(
-            new UserRepository()
-        )
-    )
+const userController = new UserController(new UserService(new UserRepository(), new TokenService()));
 
 const routes = Router();
 
-console.log("rotas")
-
-routes.post("/user", validateCreateUser, (req: Request, res: Response) => userController.create(req, res));
+routes.post("/user", validateCreateUserSchema, (req: Request, res: Response) => userController.create(req, res));
+routes.post("/user/login", validateLoginUserSchema, (req: Request, res: Response) => userController.login(req, res));
 
 export default routes;

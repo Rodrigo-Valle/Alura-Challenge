@@ -1,8 +1,8 @@
-import { ICreateUserDTO, IUserResponseDTO } from "../../dto/UserDTO";
+import { ICreateUserDTO, ILoginDTO, IUserResponseDTO } from "../../dto/UserDTO";
 
 export interface IUserService {
-    create({cpf, name, email, password}: ICreateUserDTO): Promise<IUserResponseDTO>;
-    login(email: string, password: string): Promise<any>;
+    create(createUserData: ICreateUserDTO): Promise<IUserResponseDTO>;
+    login(loginUserData: ILoginDTO): Promise<string>;
     getUser(email: string): Promise<any>;
     updateUser(email: string): Promise<any>;
     deleteUser(email: string): Promise<any>;

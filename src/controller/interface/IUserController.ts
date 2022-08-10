@@ -1,9 +1,9 @@
-import { Request, Response } from 'express';
+import { Request, Response } from "express";
 
 export interface IUserController {
-    create(req: Request, res: Response): Promise<any>;
-    login(req: Request, res: Response): Promise<any>;
-    getUser(req: Request, res: Response): Promise<any>;
-    updateUser(req: Request, res: Response): Promise<any>;
-    deleteUser(req: Request, res: Response): Promise<any>;
+    create(req: Request, res: Response): Promise<Response>;
+    login(req: Request, res: Response): Promise<Response>;
+    getUser(req: Request, res: Response): Promise<Response>;
+    updateUser(req: Request, res: Response): Promise<Response>;
+    deleteUser(req: Request, res: Response): Promise<Response>;
 }

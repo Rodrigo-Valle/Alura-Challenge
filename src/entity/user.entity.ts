@@ -1,28 +1,28 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+import { Entity, Column, PrimaryColumn } from "typeorm";
+import { v4 as uuidv4 } from "uuid";
 
 @Entity()
 export class User {
-
-    @PrimaryGeneratedColumn()
-    public id?: number;
+    @PrimaryColumn()
+    public id: string;
 
     @Column()
     public cpf: string;
 
-    @Column({name: "nome"})
+    @Column({ name: "nome" })
     public name: string;
 
     @Column()
     public email: string;
 
-    @Column({name: "senha"})
-    public password:string;
+    @Column({ name: "senha" })
+    public password: string;
 
-    constructor(id: number | undefined, cpf: string, name: string, email: string, password: string) {
-        this.id = id
-        this.cpf = cpf
-        this.name = name
-        this.email = email
-        this.password = password
+    constructor(cpf: string, name: string, email: string, password: string, id?: string) {
+        this.cpf = cpf;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.id = id || uuidv4();
     }
 }
