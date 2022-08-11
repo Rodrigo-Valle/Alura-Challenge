@@ -3,6 +3,7 @@ import { IUserController } from "./interface/IUserController";
 import { IUserService } from "../service/interface/IUserService";
 import { ProcessError } from "../utils/processError";
 import { IResponse } from "../interface/IResponse";
+import { UnauthorizedError } from "../utils/exceptions";
 
 export class UserController implements IUserController {
     private readonly userService: IUserService;
@@ -43,12 +44,31 @@ export class UserController implements IUserController {
             return ProcessError(res, error);
         }
     }
-    getUser(req: Request, res: Response): Promise<any> {
+
+    public async getUser(req: Request, res: Response): Promise<Response> {
+        try {
+            if(req.id === undefined) throw new UnauthorizedError('Usuário não logado', 'Acesso negado');
+
+            const result = await this.userService.getUser(req.id);
+
+            const response: IResponse = {
+                ok: true,
+                status: 200,
+                message: "Usuário retornado com sucesso",
+                body: result,
+            };
+
+            return res.status(200).json(response);
+
+        } catch (error) {
+            return ProcessError(res, error);
+        }
+    }
+
+    updateUser(req: Request, res: Response): Promise<Response> {
         throw new Error("Method not implemented.");
     }
-    updateUser(req: Request, res: Response): Promise<any> {
-        throw new Error("Method not implemented.");
-    }
+
     deleteUser(req: Request, res: Response): Promise<any> {
         throw new Error("Method not implemented.");
     }

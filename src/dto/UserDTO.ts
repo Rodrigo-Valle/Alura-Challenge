@@ -8,6 +8,7 @@ export interface ICreateUserDTO {
 
 export interface IUserResponseDTO {
     id?: string;
+    cpf: string;
     name: string;
     email: string;
 }

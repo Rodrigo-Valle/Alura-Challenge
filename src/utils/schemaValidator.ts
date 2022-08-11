@@ -1,6 +1,6 @@
 import { Request, NextFunction } from "express";
 import Joi, { Schema } from "joi";
-import { ValidationError } from "./exceptions/Validationerror";
+import { ValidationError } from "./exceptions";
 
 export const validateBody = async (req: Request, next: NextFunction, schema: Schema): Promise<void | any> => {
     try {

@@ -4,8 +4,7 @@ import { IUserService } from "./interface/IUserService";
 import bcryptjs from "bcryptjs";
 import { ITokenService } from "./interface/ITokenService";
 import { v4 as uuid } from "uuid";
-import { NotFoundError } from "../utils/exceptions/NotFoundError";
-import { UnauthorizedError } from "../utils/exceptions/UnauthorizedError";
+import { NotFoundError, UnauthorizedError } from "../utils/exceptions";
 
 export class UserService implements IUserService {
     private userRepository: IUserRepository;
@@ -19,19 +18,20 @@ export class UserService implements IUserService {
     public async create(createUserData: ICreateUserDTO): Promise<IUserResponseDTO> {
         createUserData.password = await bcryptjs.hash(createUserData.password, 8);
         createUserData.id = uuid();
-        const userCreated = await this.userRepository.save(createUserData);
+        const result = await this.userRepository.save(createUserData);
 
         const reponse: IUserResponseDTO = {
-            id: userCreated.id,
-            name: userCreated.name,
-            email: userCreated.email,
+            id: result.id,
+            cpf: result.cpf,
+            name: result.name,
+            email: result.email,
         };
 
         return reponse;
     }
 
     public async login({ email, password }: ILoginDTO): Promise<string> {
-        const user = await this.userRepository.getUser(email);
+        const user = await this.userRepository.getUserByEmail(email);
         if (!user) {
             throw new UnauthorizedError("Email e/ou senha incorretos, tente novamente", "Acesso negado");
         }
@@ -44,12 +44,26 @@ export class UserService implements IUserService {
 
         return this.tokenService.generateAuthToken(user.id);
     }
-    getUser(email: string): Promise<any> {
-        throw new Error("Method not implemented.");
+
+    public async getUser(id: string): Promise<IUserResponseDTO> {
+        const result = await this.userRepository.getUserById(id);
+
+        if (!result) throw new NotFoundError("Usuário não encontrado", "Objeto não localizado");
+
+        const response: IUserResponseDTO = {
+            id: result.id,
+            cpf: result.cpf,
+            name: result.name,
+            email: result.email,
+        };
+
+        return response;
     }
+
     updateUser(email: string): Promise<any> {
         throw new Error("Method not implemented.");
     }
+    
     deleteUser(email: string): Promise<any> {
         throw new Error("Method not implemented.");
     }

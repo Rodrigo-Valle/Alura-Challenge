@@ -6,13 +6,13 @@ export class User {
     @PrimaryColumn()
     public id: string;
 
-    @Column()
+    @Column({unique: true})
     public cpf: string;
 
     @Column({ name: "nome" })
     public name: string;
 
-    @Column()
+    @Column({unique: true})
     public email: string;
 
     @Column({ name: "senha" })
