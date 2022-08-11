@@ -1,3 +1,4 @@
+import { DeleteResult } from "typeorm";
 import { AppDataSource } from "../datasource";
 import { ISaveUserDTO } from "../dto/UserDTO";
 import { User } from "../entity";
@@ -22,7 +23,6 @@ export class UserRepository implements IUserRepository {
     public async getUserByEmail(email: string): Promise<User | null> {
         try {
             return await this.userRepository.findOneBy({ email: email });
-
         } catch (error: any) {
             throw new DataBaseError("Erro ao buscar usuário", error.message);
         }
@@ -30,15 +30,17 @@ export class UserRepository implements IUserRepository {
 
     public async getUserById(id: string): Promise<User | null> {
         try {
-            return await this.userRepository.findOneBy({id: id});
+            return await this.userRepository.findOneBy({ id: id });
         } catch (error: any) {
             throw new DataBaseError("Erro ao buscar usuário", error.message);
-
         }
     }
 
-
-    deleteUser(userId: string): Promise<any> {
-        throw new Error("Method not implemented.");
+    public async deleteUser(id: string): Promise<DeleteResult> {
+        try {
+            return await this.userRepository.delete({ id: id });
+        } catch (error: any) {
+            throw new DataBaseError("Erro ao deletar usuário", error.message);
+        }
     }
 }

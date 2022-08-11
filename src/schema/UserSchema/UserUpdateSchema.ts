@@ -13,9 +13,12 @@ const userCreateSchema = joi.object({
     email: joi.string().email().optional().messages({
         "string.email": "Informe um e-mail válido",
     }),
-    password: joi.string().pattern(new RegExp(/^\d{8}$/)).messages({
+    password: joi
+        .string()
+        .pattern(new RegExp(/^\d{8}$/))
+        .messages({
             "string.pattern.base": "A senha deve possuir 8 numeros",
-    }),
+        }),
 });
 
 export const validateUpdateUserSchema = async (

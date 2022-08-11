@@ -5,6 +5,7 @@ import bcryptjs from "bcryptjs";
 import { ITokenService } from "./interface/ITokenService";
 import { v4 as uuid } from "uuid";
 import { NotFoundError, UnauthorizedError } from "../utils/exceptions";
+import { DeleteResult } from "typeorm";
 
 export class UserService implements IUserService {
     private readonly userRepository: IUserRepository;
@@ -70,8 +71,8 @@ export class UserService implements IUserService {
             email: updateUserData.email ? updateUserData.email : user.email,
             password: updateUserData.password ? await bcryptjs.hash(updateUserData.password, 8) : user.password,
             id: user.id,
-            cpf: user.cpf
-        }
+            cpf: user.cpf,
+        };
 
         const result = await this.userRepository.save(updatedUser);
 
@@ -85,7 +86,12 @@ export class UserService implements IUserService {
         return reponse;
     }
 
-    deleteUser(email: string): Promise<any> {
-        throw new Error("Method not implemented.");
+    public async deleteUser(id: string): Promise<DeleteResult> {
+        const result = await this.userRepository.deleteUser(id);
+
+        if (result.affected === null || result.affected === undefined || result.affected < 1)
+            throw new NotFoundError("Usuário não encontrado", "Objeto não localizado");
+
+        return result;
     }
-}    
+}

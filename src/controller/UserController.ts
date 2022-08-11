@@ -47,7 +47,7 @@ export class UserController implements IUserController {
 
     public async getUser(req: Request, res: Response): Promise<Response> {
         try {
-            if(req.id === undefined) throw new UnauthorizedError('Usuário não logado', 'Acesso negado');
+            if (req.id === undefined) throw new UnauthorizedError("Usuário não logado", "Acesso negado");
 
             const result = await this.userService.getUser(req.id);
 
@@ -59,7 +59,6 @@ export class UserController implements IUserController {
             };
 
             return res.status(200).json(response);
-
         } catch (error) {
             return ProcessError(res, error);
         }
@@ -67,7 +66,7 @@ export class UserController implements IUserController {
 
     public async updateUser(req: Request, res: Response): Promise<Response> {
         try {
-            if(req.id === undefined) throw new UnauthorizedError('Usuário não logado', 'Acesso negado');
+            if (req.id === undefined) throw new UnauthorizedError("Usuário não logado", "Acesso negado");
 
             const result = await this.userService.updateUser(req.id, req.body);
 
@@ -84,7 +83,22 @@ export class UserController implements IUserController {
         }
     }
 
-    deleteUser(req: Request, res: Response): Promise<any> {
-        throw new Error("Method not implemented.");
+    public async deleteUser(req: Request, res: Response): Promise<Response> {
+        try {
+            if (req.id === undefined) throw new UnauthorizedError("Usuário não logado", "Acesso negado");
+
+            const result = await this.userService.deleteUser(req.id);
+
+            const response: IResponse = {
+                ok: true,
+                status: 200,
+                message: "Usuário deletado com sucesso",
+                body: result,
+            };
+
+            return res.status(200).json(response);
+        } catch (error) {
+            return ProcessError(res, error);
+        }
     }
 }
