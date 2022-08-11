@@ -1,17 +1,17 @@
 import { AppDataSource } from "../datasource";
-import { ICreateUserDTO } from "../dto/UserDTO";
+import { ISaveUserDTO } from "../dto/UserDTO";
 import { User } from "../entity";
 import { DataBaseError } from "../utils/exceptions";
 import { IUserRepository } from "./interface/IUserRepository";
 
 export class UserRepository implements IUserRepository {
-    private userRepository;
+    private readonly userRepository;
 
     constructor() {
         this.userRepository = AppDataSource.getRepository(User);
     }
 
-    public async save(user: ICreateUserDTO): Promise<User> {
+    public async save(user: ISaveUserDTO): Promise<User> {
         try {
             return await this.userRepository.save(user);
         } catch (error: any) {
@@ -37,9 +37,7 @@ export class UserRepository implements IUserRepository {
         }
     }
 
-    updateUser(user: any): Promise<any> {
-        throw new Error("Method not implemented.");
-    }
+
     deleteUser(userId: string): Promise<any> {
         throw new Error("Method not implemented.");
     }

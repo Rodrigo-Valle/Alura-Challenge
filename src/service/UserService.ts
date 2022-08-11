@@ -1,4 +1,4 @@
-import { ICreateUserDTO, ILoginDTO, IUserResponseDTO } from "../dto/UserDTO";
+import { ILoginDTO, ISaveUserDTO, IUpdateUserDTO, IUserResponseDTO } from "../dto/UserDTO";
 import { IUserRepository } from "../repository/interface/IUserRepository";
 import { IUserService } from "./interface/IUserService";
 import bcryptjs from "bcryptjs";
@@ -7,7 +7,7 @@ import { v4 as uuid } from "uuid";
 import { NotFoundError, UnauthorizedError } from "../utils/exceptions";
 
 export class UserService implements IUserService {
-    private userRepository: IUserRepository;
+    private readonly userRepository: IUserRepository;
     private readonly tokenService: ITokenService;
 
     constructor(userRepository: IUserRepository, tokenService: ITokenService) {
@@ -15,7 +15,7 @@ export class UserService implements IUserService {
         this.tokenService = tokenService;
     }
 
-    public async create(createUserData: ICreateUserDTO): Promise<IUserResponseDTO> {
+    public async create(createUserData: ISaveUserDTO): Promise<IUserResponseDTO> {
         createUserData.password = await bcryptjs.hash(createUserData.password, 8);
         createUserData.id = uuid();
         const result = await this.userRepository.save(createUserData);
@@ -60,11 +60,32 @@ export class UserService implements IUserService {
         return response;
     }
 
-    updateUser(email: string): Promise<any> {
-        throw new Error("Method not implemented.");
+    public async updateUser(id: string, updateUserData: IUpdateUserDTO): Promise<IUserResponseDTO> {
+        const user = await this.userRepository.getUserById(id);
+
+        if (!user) throw new NotFoundError("Usuário não encontrado", "Objeto não localizado");
+
+        const updatedUser: ISaveUserDTO = {
+            name: updateUserData.name ? updateUserData.name : user.name,
+            email: updateUserData.email ? updateUserData.email : user.email,
+            password: updateUserData.password ? await bcryptjs.hash(updateUserData.password, 8) : user.password,
+            id: user.id,
+            cpf: user.cpf
+        }
+
+        const result = await this.userRepository.save(updatedUser);
+
+        const reponse: IUserResponseDTO = {
+            id: result.id,
+            cpf: result.cpf,
+            name: result.name,
+            email: result.email,
+        };
+
+        return reponse;
     }
-    
+
     deleteUser(email: string): Promise<any> {
         throw new Error("Method not implemented.");
     }
-}
+}    

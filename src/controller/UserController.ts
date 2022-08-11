@@ -65,8 +65,23 @@ export class UserController implements IUserController {
         }
     }
 
-    updateUser(req: Request, res: Response): Promise<Response> {
-        throw new Error("Method not implemented.");
+    public async updateUser(req: Request, res: Response): Promise<Response> {
+        try {
+            if(req.id === undefined) throw new UnauthorizedError('Usuário não logado', 'Acesso negado');
+
+            const result = await this.userService.updateUser(req.id, req.body);
+
+            const response: IResponse = {
+                ok: true,
+                status: 200,
+                message: "Usuário atualizado com sucesso",
+                body: result,
+            };
+
+            return res.status(200).json(response);
+        } catch (error) {
+            return ProcessError(res, error);
+        }
     }
 
     deleteUser(req: Request, res: Response): Promise<any> {
