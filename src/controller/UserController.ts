@@ -11,9 +11,9 @@ export class UserController implements IUserController {
         this.userService = userService;
     }
 
-    public async create(req: Request, res: Response): Promise<Response> {
+    public async createUser(req: Request, res: Response): Promise<Response> {
         try {
-            const result = await this.userService.create(req.body);
+            const result = await this.userService.createUser(req.body);
 
             const response: IResponse = {
                 ok: true,

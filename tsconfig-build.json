@@ -107,10 +107,8 @@
         // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
         "skipLibCheck": true /* Skip type checking all .d.ts files. */
     },
-    "include": [
-      "spec/**/*.spec.ts"
-    ],
-    "files": [
-      "src/index.ts"
+    "extends": "./tsconfig.json",
+    "exclude": [
+        "spec/**/*.spec.ts"
     ]
 }

@@ -2,21 +2,19 @@ import { ILoginDTO, ISaveUserDTO, IUpdateUserDTO, IUserResponseDTO } from "../dt
 import { IUserRepository } from "../repository/interface/IUserRepository";
 import { IUserService } from "./interface/IUserService";
 import bcryptjs from "bcryptjs";
-import { ITokenService } from "./interface/ITokenService";
 import { v4 as uuid } from "uuid";
 import { NotFoundError, UnauthorizedError } from "../utils/exceptions";
 import { DeleteResult } from "typeorm";
+import { generateAuthToken} from "../utils/tokenGenerator"
 
 export class UserService implements IUserService {
     private readonly userRepository: IUserRepository;
-    private readonly tokenService: ITokenService;
 
-    constructor(userRepository: IUserRepository, tokenService: ITokenService) {
+    constructor(userRepository: IUserRepository) {
         this.userRepository = userRepository;
-        this.tokenService = tokenService;
     }
 
-    public async create(createUserData: ISaveUserDTO): Promise<IUserResponseDTO> {
+    public async createUser(createUserData: ISaveUserDTO): Promise<IUserResponseDTO> {
         createUserData.password = await bcryptjs.hash(createUserData.password, 8);
         createUserData.id = uuid();
         const result = await this.userRepository.save(createUserData);
@@ -43,7 +41,7 @@ export class UserService implements IUserService {
             throw new UnauthorizedError("Email e/ou senha incorretos, tente novamente", "Acesso negado");
         }
 
-        return this.tokenService.generateAuthToken(user.id);
+        return generateAuthToken(user.id);
     }
 
     public async getUser(id: string): Promise<IUserResponseDTO> {
