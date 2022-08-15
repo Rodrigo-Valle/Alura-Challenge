@@ -1,11 +1,11 @@
-export interface IUserResponseDTO {
+interface IUserResponseDTO {
     id?: string;
     cpf: string;
     name: string;
     email: string;
 }
 
-export interface ISaveUserDTO {
+interface ISaveUserDTO {
     cpf: string;
     name: string;
     email: string;
@@ -13,15 +13,21 @@ export interface ISaveUserDTO {
     id?: string;
 }
 
-export interface ILoginDTO {
+interface ILoginDTO {
     email: string;
     password: string;
 }
 
-export interface IUpdateUserDTO {
+interface IUpdateUserDTO {
     name?: string;
     email?: string;
     password?: string;
     id?: string;
     cpf?: string;
 }
+
+interface ITokenResponseDTO {
+    token: string;
+}
+
+export {ITokenResponseDTO, IUpdateUserDTO, ILoginDTO, ISaveUserDTO, IUserResponseDTO}

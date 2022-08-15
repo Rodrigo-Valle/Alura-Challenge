@@ -3,6 +3,32 @@ import { Request, Response, NextFunction } from "express";
 import { validateBody } from "../../utils/schemaValidator";
 import { ProcessError } from "../../utils/processError";
 
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *    UpdateUserInput:
+ *      type: object
+ *      optional:
+ *        - email
+ *        - password
+ *        - name
+ *        - cpf
+ *      properties:
+ *        email:
+ *          type: string
+ *          default: email@example.com
+ *        password:
+ *          type: string
+ *          default: 12345678
+ *        name:
+ *          type: string
+ *          default: Nome
+ *        cpf:
+ *          type: string
+ *          default: 11122233344
+ */
+
 const userCreateSchema = joi.object({
     id: joi.any().forbidden(),
     cpf: joi.any().forbidden(),

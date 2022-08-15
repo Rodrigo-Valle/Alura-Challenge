@@ -12,11 +12,11 @@ export class UserRepository implements IUserRepository {
         this.userRepository = AppDataSource.getRepository(User);
     }
 
-    public async save(user: ISaveUserDTO): Promise<User> {
+    public async saveUser(user: ISaveUserDTO): Promise<User> {
         try {
             return await this.userRepository.save(user);
         } catch (error: any) {
-            throw new DataBaseError("Erro ao salvar usuário", error.message);
+            throw new DataBaseError("Erro ao salvar usuário", error, error.code);
         }
     }
 
@@ -24,7 +24,7 @@ export class UserRepository implements IUserRepository {
         try {
             return await this.userRepository.findOneBy({ email: email });
         } catch (error: any) {
-            throw new DataBaseError("Erro ao buscar usuário", error.message);
+            throw new DataBaseError("Erro ao buscar usuário", error, error.code);
         }
     }
 
@@ -32,7 +32,7 @@ export class UserRepository implements IUserRepository {
         try {
             return await this.userRepository.findOneBy({ id: id });
         } catch (error: any) {
-            throw new DataBaseError("Erro ao buscar usuário", error.message);
+            throw new DataBaseError("Erro ao buscar usuário", error, error.code);
         }
     }
 
@@ -40,7 +40,7 @@ export class UserRepository implements IUserRepository {
         try {
             return await this.userRepository.delete({ id: id });
         } catch (error: any) {
-            throw new DataBaseError("Erro ao deletar usuário", error.message);
+            throw new DataBaseError("Erro ao deletar usuário", error, error.code);
         }
     }
 }

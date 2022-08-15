@@ -1,6 +1,6 @@
 import {UserService} from "../../src/service/UserService"
 import { UserRepositoryMock } from "../mocks/repository/UserRepositoryMock"
-import { createUserDTO, updateUserDTO, userResponseDTO } from "../mocks/dto/UserMocks";
+import { createUserMock, updateUserMock, userResponseMock } from "../mocks/dto/UserMocks";
 import { NotFoundError, UnauthorizedError } from "../../src/utils/exceptions";
 import bcryptjs from "bcryptjs";
 
@@ -8,8 +8,8 @@ const userServiceTest = new UserService(new UserRepositoryMock());
 
 describe("UserService createUser", () => {
     it('should return a user when create susscefully', async () => {
-        const response = await userServiceTest.createUser(createUserDTO);
-        expect(response).toEqual(userResponseDTO);
+        const response = await userServiceTest.createUser(createUserMock);
+        expect(response).toEqual(userResponseMock);
 
     })
 });
@@ -17,7 +17,7 @@ describe("UserService createUser", () => {
 describe("UserService login", () => {
     it('should throw an error when user not found in login', async () => {
         try {
-            const response = await userServiceTest.login({email: "wrongEmail",
+            const response = await userServiceTest.loginUser({email: "wrongEmail",
             password: "test"});
 
         } catch (error) {
@@ -30,7 +30,7 @@ describe("UserService login", () => {
             const bcryptCompare = jest.fn().mockResolvedValue(false);
             (bcryptjs.compare as jest.Mock) = bcryptCompare;
 
-            const response = await userServiceTest.login({email: "test@test.com",
+            const response = await userServiceTest.loginUser({email: "test@test.com",
             password: "test"});
             
 
@@ -45,7 +45,7 @@ describe("UserService login", () => {
             const bcryptCompare = jest.fn().mockResolvedValue(true);
             (bcryptjs.compare as jest.Mock) = bcryptCompare;
 
-            const response = await userServiceTest.login({email: "test@test.com",
+            const response = await userServiceTest.loginUser({email: "test@test.com",
             password: "test"});
 
             expect(response).toBe('token');
@@ -69,7 +69,7 @@ describe('UserService getUser', () => {
         try {
             const response = await userServiceTest.getUser("1");
 
-            expect(response).toEqual(userResponseDTO);
+            expect(response).toEqual(userResponseMock);
             
 
         } catch (error) {}
@@ -79,7 +79,7 @@ describe('UserService getUser', () => {
 describe('UserService updateUser', () => {
     it('should throw an error when user not found in getUser', async () => {
         try {
-            const response = await userServiceTest.updateUser("2", updateUserDTO);
+            const response = await userServiceTest.updateUser("2", updateUserMock);
 
         } catch (error) {
             expect(error).toBeInstanceOf(NotFoundError);
@@ -88,21 +88,21 @@ describe('UserService updateUser', () => {
 
     it('should return an user when updateUser is successful', async () => {
         try {
-            const response = await userServiceTest.updateUser("1", updateUserDTO);
+            const response = await userServiceTest.updateUser("1", updateUserMock);
 
-            expect(response).toEqual(userResponseDTO);
+            expect(response).toEqual(userResponseMock);
         } catch (error) {}
     })
 
     it('should return an user when updateUser is successful two', async () => {
         try {
-            delete updateUserDTO.cpf;
-            delete updateUserDTO.email;
-            delete updateUserDTO.name;
-            delete updateUserDTO.password;
-            const response = await userServiceTest.updateUser("1", updateUserDTO);
+            delete updateUserMock.cpf;
+            delete updateUserMock.email;
+            delete updateUserMock.name;
+            delete updateUserMock.password;
+            const response = await userServiceTest.updateUser("1", updateUserMock);
 
-            expect(response).toEqual(userResponseDTO);
+            expect(response).toEqual(userResponseMock);
         } catch (error) {}
     })
 });

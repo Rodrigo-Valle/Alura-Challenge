@@ -1,4 +1,4 @@
-import { ILoginDTO, ISaveUserDTO, IUpdateUserDTO, IUserResponseDTO } from "../dto/UserDTO";
+import { ILoginDTO, ISaveUserDTO, ITokenResponseDTO, IUpdateUserDTO, IUserResponseDTO } from "../dto/UserDTO";
 import { IUserRepository } from "../repository/interface/IUserRepository";
 import { IUserService } from "./interface/IUserService";
 import bcryptjs from "bcryptjs";
@@ -17,7 +17,7 @@ export class UserService implements IUserService {
     public async createUser(createUserData: ISaveUserDTO): Promise<IUserResponseDTO> {
         createUserData.password = await bcryptjs.hash(createUserData.password, 8);
         createUserData.id = uuid();
-        const result = await this.userRepository.save(createUserData);
+        const result = await this.userRepository.saveUser(createUserData);
 
         const reponse: IUserResponseDTO = {
             id: result.id,
@@ -29,25 +29,29 @@ export class UserService implements IUserService {
         return reponse;
     }
 
-    public async login({ email, password }: ILoginDTO): Promise<string> {
+    public async loginUser({ email, password }: ILoginDTO): Promise<ITokenResponseDTO> {
         const user = await this.userRepository.getUserByEmail(email);
         if (!user) {
-            throw new UnauthorizedError("Email e/ou senha incorretos, tente novamente", "Acesso negado");
+            throw new UnauthorizedError("Email e/ou senha incorretos, tente novamente");
         }
 
         const isMatch = await bcryptjs.compare(password, user.password);
 
         if (!isMatch) {
-            throw new UnauthorizedError("Email e/ou senha incorretos, tente novamente", "Acesso negado");
+            throw new UnauthorizedError("Email e/ou senha incorretos, tente novamente");
         }
 
-        return generateAuthToken(user.id);
+        const token: ITokenResponseDTO = {
+            token: generateAuthToken(user.id)
+        }
+
+        return token;
     }
 
     public async getUser(id: string): Promise<IUserResponseDTO> {
         const result = await this.userRepository.getUserById(id);
 
-        if (!result) throw new NotFoundError("Usuário não encontrado", "Objeto não localizado");
+        if (!result) throw new NotFoundError("Usuário não localizado");
 
         const response: IUserResponseDTO = {
             id: result.id,
@@ -62,7 +66,7 @@ export class UserService implements IUserService {
     public async updateUser(id: string, updateUserData: IUpdateUserDTO): Promise<IUserResponseDTO> {
         const user = await this.userRepository.getUserById(id);
 
-        if (!user) throw new NotFoundError("Usuário não encontrado", "Objeto não localizado");
+        if (!user) throw new NotFoundError("Usuário não localizado");
 
         const updatedUser: ISaveUserDTO = {
             name: updateUserData.name ? updateUserData.name : user.name,
@@ -72,7 +76,7 @@ export class UserService implements IUserService {
             cpf: user.cpf,
         };
 
-        const result = await this.userRepository.save(updatedUser);
+        const result = await this.userRepository.saveUser(updatedUser);
 
         const reponse: IUserResponseDTO = {
             id: result.id,
@@ -88,7 +92,7 @@ export class UserService implements IUserService {
         const result = await this.userRepository.deleteUser(id);
 
         if (result.affected === null || result.affected === undefined || result.affected < 1)
-            throw new NotFoundError("Usuário não encontrado", "Objeto não localizado");
+            throw new NotFoundError("Usuário não localizado");
 
         return result;
     }

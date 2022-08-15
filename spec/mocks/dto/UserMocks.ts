@@ -1,22 +1,22 @@
-import { ILoginDTO, ISaveUserDTO, IUpdateUserDTO, IUserResponseDTO } from "../../../src/dto/UserDTO";
+import { ISaveUserDTO, ITokenResponseDTO, IUpdateUserDTO, IUserResponseDTO } from "../../../src/dto/UserDTO";
 import { User } from "../../../src/entity";
 
 
-const createUserDTO: ISaveUserDTO = {
+const createUserMock: ISaveUserDTO = {
     cpf: "11122233344",
     email: "test@test.com",
     name: "test",
     password: "test"
 }
 
-const updateUserDTO: IUpdateUserDTO = {
+const updateUserMock: IUpdateUserDTO = {
     cpf: "11122233344",
     email: "test@test.com",
     name: "test",
     password: "test"
 }
 
-const returnUserDTO: User = {
+const returnUserMock: User = {
     id: "1",
     cpf: "11122233344",
     email: "test@test.com",
@@ -24,14 +24,18 @@ const returnUserDTO: User = {
     password: "test"
 }
 
-const userResponseDTO: IUserResponseDTO = {
+const userResponseMock: IUserResponseDTO = {
     id: "1",
     email: "test@test.com",
     name: "test",
     cpf: "11122233344"
 }
 
-export {createUserDTO, returnUserDTO, userResponseDTO, updateUserDTO};
+const tokenResponseMock: ITokenResponseDTO = {
+    token: "token"
+}
+
+export {tokenResponseMock, userResponseMock, returnUserMock, updateUserMock, createUserMock};
 
 
 

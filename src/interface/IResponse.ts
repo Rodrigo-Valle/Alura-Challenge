@@ -2,6 +2,6 @@ export interface IResponse {
     ok: boolean;
     status: any;
     message: string;
-    body?: any;
+    data?: any;
     detail?: any;
 }

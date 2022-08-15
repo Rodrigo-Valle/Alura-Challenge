@@ -2,24 +2,24 @@ import { DeleteResult } from "typeorm";
 import { ISaveUserDTO } from "../../../src/dto/UserDTO";
 import { User } from "../../../src/entity";
 import { IUserRepository } from "../../../src/repository/interface/IUserRepository";
-import { returnUserDTO } from "../dto/UserMocks";
+import {  returnUserMock } from "../dto/UserMocks";
 
 
 export class UserRepositoryMock implements IUserRepository {
-    public async save(_user: ISaveUserDTO): Promise<User> {
-        return returnUserDTO;
+    public async saveUser(_user: ISaveUserDTO): Promise<User> {
+        return returnUserMock;
     }
 
     public async getUserByEmail(email: string): Promise<User | null> {
         if (email !== "test@test.com") return null
         
-        return returnUserDTO;
+        return returnUserMock;
     }
 
     public async getUserById(id: string): Promise<User | null> {
         if (id !== "1") return null
         
-        return returnUserDTO; 
+        return returnUserMock; 
     }
 
     public async deleteUser(id: string): Promise<DeleteResult> {
@@ -31,7 +31,5 @@ export class UserRepositoryMock implements IUserRepository {
 
         deleteResult.affected = 1;
         return deleteResult
-
     }
-    
 }

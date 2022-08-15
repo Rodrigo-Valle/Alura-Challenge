@@ -10,7 +10,7 @@ export const validateBody = async (req: Request, next: NextFunction, schema: Sch
         if (Joi.isError(error)) {
             const { details } = error;
             const detail = details.map((i: any) => i.message);
-            throw new ValidationError(detail, "Erro de validação na entrada de dados");
+            throw new ValidationError(detail);
         }
     }
 };

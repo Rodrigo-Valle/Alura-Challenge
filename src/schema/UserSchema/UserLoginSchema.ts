@@ -3,6 +3,40 @@ import { Request, Response, NextFunction } from "express";
 import { validateBody } from "../../utils/schemaValidator";
 import { ProcessError } from "../../utils/processError";
 
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *    LoginUserInput:
+ *      type: object
+ *      required:
+ *        - email
+ *        - password
+ *      properties:
+ *        email:
+ *          type: string
+ *          default: email@example.com
+ *        password:
+ *          type: string
+ *          default: stringPassword123
+ *    LoginUserResponse:
+ *      type: object
+ *      properties:
+ *        ok:
+ *          type: boolean
+ *          default: true
+ *        status:
+ *          type: number
+ *          default: 200
+ *        message:
+ *          type: string
+ *        data: 
+ *          type: object
+ *          properties:
+ *            token:
+ *              type: string
+ */
+
 const userLoginSchema = joi.object({
     email: joi.string().email().required().messages({
         "string.email": "Informe um e-mail válido",

@@ -10,7 +10,7 @@ interface UserPayload {
 export const auth = (req: Request, res: Response, next: NextFunction) => {
     try {
         const token = req.get("Authorization")
-        if (token === undefined) throw new UnauthorizedError("Não informado token de autenticação", "Acesso negado");
+        if (token === undefined) throw new UnauthorizedError("Não informado token de autenticação");
 
         const formattedToken = token.replace("Bearer ", "");
         const decoded = jwt.verify(formattedToken, process.env.JWT_SECRET || "") as UserPayload;
