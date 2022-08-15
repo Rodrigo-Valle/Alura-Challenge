@@ -38,7 +38,7 @@ const routes = Router();
    *            schema:
    *              $ref: '#/components/schemas/NotFoundError'
    */
- routes.get("/user/me", auth, (req: Request, res: Response) => userController.getUser(req, res));
+ routes.get("/me", auth, (req: Request, res: Response) => userController.getUser(req, res));
 
    /**
    * @openapi
@@ -73,7 +73,7 @@ const routes = Router();
    *            schema:
    *              $ref: '#/components/schemas/DataBaseError'
    */
-routes.post("/user/sigin", validateCreateUserSchema, (req: Request, res: Response) => userController.createUser(req, res));
+routes.post("/sigin", validateCreateUserSchema, (req: Request, res: Response) => userController.createUser(req, res));
 
   /**
    * @openapi
@@ -108,7 +108,7 @@ routes.post("/user/sigin", validateCreateUserSchema, (req: Request, res: Respons
    *            schema:
    *              $ref: '#/components/schemas/NotFoundError'
    */
-routes.post("/user/login", validateLoginUserSchema, (req: Request, res: Response) => userController.loginUser(req, res));
+routes.post("/login", validateLoginUserSchema, (req: Request, res: Response) => userController.loginUser(req, res));
 
    /**
    * @openapi
@@ -151,7 +151,7 @@ routes.post("/user/login", validateLoginUserSchema, (req: Request, res: Response
    *            schema:
    *              $ref: '#/components/schemas/DataBaseError'
    */
-routes.patch("/user/me", auth, validateUpdateUserSchema, (req: Request, res: Response) =>
+routes.patch("/me", auth, validateUpdateUserSchema, (req: Request, res: Response) =>
     userController.updateUser(req, res)
 );
 
@@ -178,6 +178,6 @@ routes.patch("/user/me", auth, validateUpdateUserSchema, (req: Request, res: Res
    *            schema:
    *              $ref: '#/components/schemas/NotFoundError'
    */
-routes.delete("/user/me", auth, (req: Request, res: Response) => userController.deleteUser(req, res));
+routes.delete("/me", auth, (req: Request, res: Response) => userController.deleteUser(req, res));
 
 export default routes;
