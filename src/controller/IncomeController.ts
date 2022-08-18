@@ -30,12 +30,30 @@ export class IncomeController implements IIncomeController{
             return ProcessError(res, error);
         }
     }
-    getIncomes(req: Request, res: Response): Promise<Response> {
+
+    public async getIncome(req: Request, res: Response): Promise<Response> {
         throw new Error("Method not implemented.");
     }
-    getIncome(req: Request, res: Response): Promise<Response> {
-        throw new Error("Method not implemented.");
+
+    public async getIncomes(req: Request, res: Response): Promise<Response> {
+        try {
+            if (req.id === undefined) throw new UnauthorizedError("Usuário não autorizado");
+
+            const result = await this.incomeService.getIncomes(req.id);
+
+            const response: IResponse = {
+                ok: true,
+                status: 200,
+                message: "Receitas retornadas com sucesso",
+                data: result,
+            };
+
+            return res.status(201).json(response);
+        } catch (error) {
+            return ProcessError(res, error);
+        }
     }
+
     updateIncome(req: Request, res: Response): Promise<Response> {
         throw new Error("Method not implemented.");
     }

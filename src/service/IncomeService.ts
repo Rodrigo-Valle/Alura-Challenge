@@ -37,8 +37,22 @@ export class IncomeService implements IIncomeService {
         return reponse;
 
     }
-    getIncomes(userId: string): Promise<IIncomeResponseDTO[]> {
-        throw new Error("Method not implemented.");
+    
+    public async getIncomes(userId: string): Promise<IIncomeResponseDTO[]> {
+        const result = await this.incomeRepository.getIncomesById(userId);
+
+        if (!result) throw new NotFoundError("Receitas não localizadas");
+        
+        return result.map(income => {
+            let incomeMapped : IIncomeResponseDTO = {
+                id: income.id,
+                description: income.description,
+                value: income.value,
+                date: income.date,
+            }
+            return incomeMapped;
+        })
+
     }
     getIncome(id: string, userId: string): Promise<IIncomeResponseDTO> {
         throw new Error("Method not implemented.");

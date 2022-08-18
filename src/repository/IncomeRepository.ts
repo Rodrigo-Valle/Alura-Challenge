@@ -19,8 +19,22 @@ export class IncomeRepository implements IIncomeRepository {
             throw new DataBaseError("Erro ao salvar receita", error, error.code);
         }
     }
-    getIncomesById(id: string): Promise<Income[] | null> {
-        throw new Error("Method not implemented.");
+
+    public async getIncomesById(id: string): Promise<Income[] | null> {
+        try {
+            return await this.incomeRepository.find({
+                relations: {
+                    user: true
+                },
+                where: {
+                    user: {
+                        id: id
+                    }
+                }
+            });
+        } catch (error: any) {
+            throw new DataBaseError("Erro ao buscar receita", error, error.code);
+        }
     }
     getIncomeById(id: string): Promise<Income | null> {
         throw new Error("Method not implemented.");

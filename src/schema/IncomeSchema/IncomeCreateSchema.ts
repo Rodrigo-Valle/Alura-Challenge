@@ -24,6 +24,31 @@ import { ProcessError } from "../../utils/processError";
  *          type: string
  *          format: date
  *          default: YYYY-MM-DD
+ *    GetIncomesResponse:
+ *      type: object
+ *      properties:
+ *        ok:
+ *          type: boolean
+ *          default: true
+ *        status:
+ *          type: number
+ *          default: 201
+ *        message:
+ *          type: string
+ *        data:
+ *          type: array
+ *          items:
+ *            type: object
+ *            properties:
+ *              id:
+ *                type: string
+ *              description:
+ *                type: string
+ *              value:
+ *                type: number
+ *              date:
+ *                type: string
+ *                format: date
  *    CreateIncomeResponse:
  *      type: object
  *      properties:
