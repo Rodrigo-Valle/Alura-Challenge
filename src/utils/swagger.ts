@@ -32,12 +32,12 @@ function swaggerDocs(app: Express, port: string) {
 
 
     //Docs in JSON  format
-    app.get('docs.json', (req: Request, res: Response) => {
+    app.get('docs.json', (_req: Request, res: Response) => {
         res.setHeader('Content-Type', 'application/json');
         res.send(swaggerSpec);
     })
 
-    logger.info(`[Startup Swagger] Docs Avaiable in: http://localhost:${port}/docs`);
+    logger.info(`[Startup - Swagger] Docs Avaiable in: http://localhost:${port}/docs`);
 
 }
 

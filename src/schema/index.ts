@@ -1,5 +1,7 @@
+import { validateCreateIncomeSchema } from "./IncomeSchema/IncomeCreateSchema";
 import { validateCreateUserSchema } from "./UserSchema/UserCreateSchema";
 import { validateLoginUserSchema } from "./UserSchema/UserLoginSchema";
 import { validateUpdateUserSchema } from "./UserSchema/UserUpdateSchema";
 
-export { validateCreateUserSchema, validateLoginUserSchema, validateUpdateUserSchema };
+export { validateCreateUserSchema, validateLoginUserSchema, validateUpdateUserSchema,
+         validateCreateIncomeSchema  };

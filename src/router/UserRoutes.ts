@@ -31,6 +31,12 @@ const routes = Router();
    *          application/json:
    *            schema:
    *              $ref: '#/components/schemas/ValidationError'
+   *      401:
+   *        description: Unauthorized
+   *        content:
+   *          application/json:
+   *            schema:
+   *              $ref: '#/components/schemas/UnauthorizedError'
    *      404:
    *        description: Not Found
    *        content:
@@ -138,6 +144,12 @@ routes.post("/login", validateLoginUserSchema, (req: Request, res: Response) => 
    *          application/json:
    *            schema:
    *              $ref: '#/components/schemas/ValidationError'
+   *      401:
+   *        description: Unauthorized
+   *        content:
+   *          application/json:
+   *            schema:
+   *              $ref: '#/components/schemas/UnauthorizedError'
    *      404:
    *        description: Not Found
    *        content:
@@ -171,6 +183,12 @@ routes.patch("/me", auth, validateUpdateUserSchema, (req: Request, res: Response
    *          application/json:
    *            schema:
    *              $ref: '#/components/schemas/DeleteUserResponse'
+   *      401:
+   *        description: Unauthorized
+   *        content:
+   *          application/json:
+   *            schema:
+   *              $ref: '#/components/schemas/UnauthorizedError'
    *      404:
    *        description: Not Found
    *        content:
