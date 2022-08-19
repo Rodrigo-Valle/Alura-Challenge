@@ -55,9 +55,52 @@ const routes = Router();
    */
 routes.post("/create", auth, validateCreateIncomeSchema, (req: Request, res: Response ) => incomeController.createIncome(req, res));
 
+
    /**
    * @openapi
-   * '/income/':
+   * '/income/{id}':
+   *  get:
+   *     tags:
+   *     - Income
+   *     summary: Get a Income
+   *     security:
+   *       - bearerAuth: []
+   *     parameters:
+   *       - in: path
+   *         name: id
+   *         required: true
+   *     responses:
+   *      200:
+   *        description: Success
+   *        content:
+   *          application/json:
+   *            schema:
+   *              $ref: '#/components/schemas/GetIncomesResponse'
+   *      401:
+   *        description: Unauthorized
+   *        content:
+   *          application/json:
+   *            schema:
+   *              $ref: '#/components/schemas/UnauthorizedError'
+   *      404:
+   *        description: Not Found
+   *        content:
+   *          application/json:
+   *            schema:
+   *              $ref: '#/components/schemas/NotFoundError'
+   *      500:
+   *        description: Internal Server Error
+   *        content:
+   *          application/json:
+   *            schema:
+   *              $ref: '#/components/schemas/DataBaseError'
+   */
+routes.get("/:id", auth, (req: Request, res: Response ) => incomeController.getIncome(req, res));
+
+
+   /**
+   * @openapi
+   * '/income':
    *  get:
    *     tags:
    *     - Income
@@ -90,7 +133,8 @@ routes.post("/create", auth, validateCreateIncomeSchema, (req: Request, res: Res
    *            schema:
    *              $ref: '#/components/schemas/DataBaseError'
    */
-routes.get("/", auth, (req: Request, res: Response ) => incomeController.getIncomes(req, res));
+routes.get("", auth, (req: Request, res: Response ) => incomeController.getIncomes(req, res));
+
 
 
 
