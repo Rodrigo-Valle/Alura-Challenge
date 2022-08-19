@@ -69,8 +69,30 @@ export class IncomeService implements IIncomeService {
 
         return reponse;
     }
-    updateIncome(id: string, updateIncomeData: IUpdateIncomeDTO): Promise<IIncomeResponseDTO> {
-        throw new Error("Method not implemented.");
+    
+    public async updateIncome(id: string, updateIncomeData: IUpdateIncomeDTO): Promise<IIncomeResponseDTO> {
+        const income = await this.incomeRepository.getIncomeById(id);
+
+        if (!income) throw new NotFoundError("Usuário não localizado");
+
+        const updatedIncome: ISaveIncomeDTO = {
+            description: updateIncomeData.description ? updateIncomeData.description : income.description,
+            value: updateIncomeData.value ? updateIncomeData.value : income.value,
+            date: updateIncomeData.date ? updateIncomeData.date : income.date,
+            id: income.id,
+            user: income.user,
+        };
+
+        const result = await this.incomeRepository.saveIncome(updatedIncome);
+
+        const reponse: IIncomeResponseDTO = {
+            id: result.id,
+            description: result.description,
+            value: result.value,
+            date: result.date,
+        };
+
+        return reponse;
     }
     deleteIncome(id: string): Promise<DeleteResult> {
         throw new Error("Method not implemented.");
