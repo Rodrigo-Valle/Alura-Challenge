@@ -45,7 +45,7 @@ export class IncomeController implements IIncomeController{
                 data: result,
             };
 
-            return res.status(201).json(response);
+            return res.status(200).json(response);
         } catch (error) {
             return ProcessError(res, error);
         }
@@ -64,7 +64,7 @@ export class IncomeController implements IIncomeController{
                 data: result,
             };
 
-            return res.status(201).json(response);
+            return res.status(200).json(response);
         } catch (error) {
             return ProcessError(res, error);
         }
@@ -85,7 +85,7 @@ export class IncomeController implements IIncomeController{
                 data: result,
             };
 
-            return res.status(201).json(response);
+            return res.status(200).json(response);
         } catch (error) {
             return ProcessError(res, error);
         }
@@ -106,7 +106,7 @@ export class IncomeController implements IIncomeController{
                 data: result,
             };
 
-            return res.status(201).json(response);
+            return res.status(200).json(response);
         } catch (error) {
             return ProcessError(res, error);
         }

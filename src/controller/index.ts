@@ -1,3 +1,5 @@
 import { UserController } from "./UserController";
+import { IncomeController } from "./IncomeController";
 
-export { UserController }
+
+export { UserController, IncomeController }

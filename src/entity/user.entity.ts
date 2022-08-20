@@ -29,8 +29,4 @@ export class User {
         this.password = password;
         this.id = id || uuidv4();
     }
-
-    public addIncome(income: Income) {
-        this.income?.push(income);
-    }
 }

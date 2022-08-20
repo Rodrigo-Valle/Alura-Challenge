@@ -10,9 +10,9 @@ const port = process.env.APP_PORT || "8000";
 
 AppDataSource.initialize()
     .then(() => {
-        logger.info("[Startup - DataBase] DataSource initialized");
+        logger.info("[Startup - Database Connection] DataSource initialized");
         app.listen(port, () => {
-            logger.info(`[Startup - Server] Express server has started on port ${port} . Open http://localhost:${port}/ to see results`);
+            logger.info(`[Startup - Server] App running on http://localhost:${port}/`);
             swagger(app, port)
         });
     })
