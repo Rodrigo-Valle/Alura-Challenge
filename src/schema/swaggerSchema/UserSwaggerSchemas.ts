@@ -24,24 +24,6 @@
  *              type: string
  *            email:
  *              type: string
- *    DeleteUserResponse:
- *      type: object
- *      properties:
- *        ok:
- *          type: boolean
- *          default: true
- *        status:
- *          type: number
- *          default: 201
- *        message:
- *          type: string
- *        data:
- *          type: object
- *          properties:
- *            raw:
- *              type: string
- *            affected:
- *              type: string
  *    SiginUserResponse:
  *      type: object
  *      properties:

@@ -7,8 +7,13 @@ const options: swaggerJsdoc.Options = {
     definition: {
         openapi: '3.0.0',
         info: {
-            title: 'REST API Documentation',
-            version: '1.0.0'
+            title: 'Controle Orcamento API Documentation',
+            version: '1.0.0',
+            description: "Api desenvolvida para o AluraChallenge",
+            contact: {
+                name: "Repositório:",
+                url: "https://github.com/Rodrigo-Valle/Alura-Challenge",
+            },
         },
         components: {
             securitySchemes: {
@@ -21,12 +26,12 @@ const options: swaggerJsdoc.Options = {
             }
         },
     },
-    apis: ['./src/router/**.ts', './src/schema/**/*.ts']
+    apis: ['./src/router/**.ts', './src/schema/swaggerSchema/*.ts']
 };
 
 const swaggerSpec = swaggerJsdoc(options);
 
-function swaggerDocs(app: Express, port: string) {
+function swagger(app: Express, port: string) {
     // Swagger Page
     app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
@@ -41,4 +46,4 @@ function swaggerDocs(app: Express, port: string) {
 
 }
 
-export default swaggerDocs;
+export default swagger;

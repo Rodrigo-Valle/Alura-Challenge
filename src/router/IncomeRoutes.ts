@@ -9,12 +9,12 @@ import {validateCreateIncomeSchema, validateUpdateIncomeSchema } from "../schema
 
 const incomeController = new IncomeController(new IncomeService(new IncomeRepository(), new UserRepository()));
 
-const routes = Router();
+const incomeRoutes = Router();
 
 
 /**
 * @openapi
-* '/income/create':
+* '/income':
 *  post:
 *     tags:
 *     - Income
@@ -53,8 +53,7 @@ const routes = Router();
 *            schema:
 *              $ref: '#/components/schemas/DataBaseError'
 */
-routes.post("/create", auth, validateCreateIncomeSchema, (req: Request, res: Response ) => incomeController.createIncome(req, res));
-
+incomeRoutes.post("", auth, validateCreateIncomeSchema, (req: Request, res: Response ) => incomeController.createIncome(req, res));
 
 /**
 * @openapi
@@ -95,8 +94,7 @@ routes.post("/create", auth, validateCreateIncomeSchema, (req: Request, res: Res
 *            schema:
 *              $ref: '#/components/schemas/DataBaseError'
 */
-routes.get("/:id", auth, (req: Request, res: Response ) => incomeController.getIncome(req, res));
-
+incomeRoutes.get("/:id", auth, (req: Request, res: Response ) => incomeController.getIncome(req, res));
 
 /**
 * @openapi
@@ -133,12 +131,11 @@ routes.get("/:id", auth, (req: Request, res: Response ) => incomeController.getI
 *            schema:
 *              $ref: '#/components/schemas/DataBaseError'
 */
-routes.get("", auth, (req: Request, res: Response ) => incomeController.getIncomes(req, res));
-
+incomeRoutes.get("", auth, (req: Request, res: Response ) => incomeController.getIncomes(req, res));
 
 /**
 * @openapi
-* '/income/update/{id}':
+* '/income/{id}':
 *  patch:
 *     tags:
 *     - Income
@@ -188,10 +185,48 @@ routes.get("", auth, (req: Request, res: Response ) => incomeController.getIncom
 *            schema:
 *              $ref: '#/components/schemas/DataBaseError'
 */
-routes.patch("/update/:id", auth, validateUpdateIncomeSchema, (req: Request, res: Response ) => incomeController.updateIncome(req, res));
+incomeRoutes.patch("/:id", auth, validateUpdateIncomeSchema, (req: Request, res: Response ) => incomeController.updateIncome(req, res));
 
+/**
+ * @openapi
+ * '/income':
+ *  delete:
+ *     tags:
+ *     - Income
+ *     summary: Delete a Income
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+*       - in: path
+*         name: id
+*         required: true
+*         description: Income Id
+ *     responses:
+ *      200:
+ *        description: Success
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/DeleteResponse'
+ *      401:
+ *        description: Unauthorized
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/UnauthorizedError'
+ *      404:
+ *        description: Not Found
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/NotFoundError'
+ *      500:
+ *        description: Internal Server Error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/DataBaseError'
+ */
+incomeRoutes.delete("/:id", auth, (req: Request, res: Response ) => incomeController.deleteIncome(req, res));
 
-
-
-
-export default routes;
+export default incomeRoutes;

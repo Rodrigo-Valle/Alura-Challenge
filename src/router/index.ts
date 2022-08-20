@@ -1,7 +1,7 @@
 import { Router,  Response, Request } from 'express'
 import logger from '../utils/logger';
 import UserRoutes from './UserRoutes'
-import IncomeRoutes from './IncomeRouter'
+import IncomeRoutes from './IncomeRoutes'
 
 const routes = Router();
 

@@ -16,7 +16,7 @@ export class Income {
     @Column({ name: "data" })
     public date: Date;
 
-    @ManyToOne(() => User, (user: User) => user.id)
+    @ManyToOne(() => User, (user: User) => user.id, { onDelete: "CASCADE" })
     user: User
 
     constructor(description: string, value: number, date: Date, user: User, id?: string) {

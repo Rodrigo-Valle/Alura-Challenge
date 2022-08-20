@@ -55,8 +55,8 @@ export class IncomeService implements IIncomeService {
 
     }
 
-    public async getIncome(id: string): Promise<IIncomeResponseDTO> {
-        const result = await this.incomeRepository.getIncomeById(id);
+    public async getIncome(id: string, userId: string): Promise<IIncomeResponseDTO> {
+        const result = await this.incomeRepository.getIncomeById(id, userId);
 
         if (!result) throw new NotFoundError("Receita não localizada");
         
@@ -70,10 +70,10 @@ export class IncomeService implements IIncomeService {
         return reponse;
     }
     
-    public async updateIncome(id: string, updateIncomeData: IUpdateIncomeDTO): Promise<IIncomeResponseDTO> {
-        const income = await this.incomeRepository.getIncomeById(id);
+    public async updateIncome(id: string, updateIncomeData: IUpdateIncomeDTO, userId: string): Promise<IIncomeResponseDTO> {
+        const income = await this.incomeRepository.getIncomeById(id, userId);
 
-        if (!income) throw new NotFoundError("Usuário não localizado");
+        if (!income) throw new NotFoundError("Receita não localizada");
 
         const updatedIncome: ISaveIncomeDTO = {
             description: updateIncomeData.description ? updateIncomeData.description : income.description,
@@ -94,7 +94,13 @@ export class IncomeService implements IIncomeService {
 
         return reponse;
     }
-    deleteIncome(id: string): Promise<DeleteResult> {
-        throw new Error("Method not implemented.");
+
+    public async deleteIncome(id: string, userId: string): Promise<DeleteResult> {
+        const result = await this.incomeRepository.deleteIncome(id, userId);
+
+        if (result.affected === null || result.affected === undefined || result.affected < 1)
+            throw new NotFoundError("Receita não localizada");
+
+        return result;
     }
 }

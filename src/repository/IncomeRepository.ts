@@ -37,16 +37,34 @@ export class IncomeRepository implements IIncomeRepository {
         }
     }
     
-    public async getIncomeById(id: string): Promise<Income | null> {
+    public async getIncomeById(id: string, userId: string): Promise<Income | null> {
         try {
-            return await this.incomeRepository.findOneBy({id: id});
+            return await this.incomeRepository.findOne({
+                relations: {
+                    user: true
+                },
+                where: {
+                    id: id,
+                    user: {
+                        id: userId
+                    }
+                }
+            });
         } catch (error: any) {
             throw new DataBaseError("Erro ao salvar receita", error, error.code);
         }
     }
-    
-    deleteIncome(id: string): Promise<DeleteResult> {
-        throw new Error("Method not implemented.");
-    }
 
+    public async deleteIncome(id: string, userId: string): Promise<DeleteResult> {
+        try {
+            return await this.incomeRepository.createQueryBuilder()
+            .delete()
+            .from('Income')
+            .where("id = :incomeId", {incomeId: id})
+            .andWhere("userId = :userId", {userId: userId})
+            .execute();
+        } catch (error: any) {
+            throw new DataBaseError("Erro ao deletar receita", error, error.code);
+        }
+    }
 }

@@ -36,7 +36,7 @@ export class IncomeController implements IIncomeController{
             if (req.id === undefined) throw new UnauthorizedError("Usuário não autorizado");
 
             const { id } = req.params
-            const result = await this.incomeService.getIncome(id);
+            const result = await this.incomeService.getIncome(id, req.id);
 
             const response: IResponse = {
                 ok: true,
@@ -76,12 +76,12 @@ export class IncomeController implements IIncomeController{
 
             const { id } = req.params
 
-            const result = await this.incomeService.updateIncome(id, req.body);
+            const result = await this.incomeService.updateIncome(id, req.body, req.id);
 
             const response: IResponse = {
                 ok: true,
                 status: 200,
-                message: "Receita Atualizada com sucesso",
+                message: "Receita atualizada com sucesso",
                 data: result,
             };
 
@@ -90,7 +90,25 @@ export class IncomeController implements IIncomeController{
             return ProcessError(res, error);
         }
     }
-    deleteIncome(req: Request, res: Response): Promise<Response> {
-        throw new Error("Method not implemented.");
+
+    public async deleteIncome(req: Request, res: Response): Promise<Response> {
+        try {
+            if (req.id === undefined) throw new UnauthorizedError("Usuário não autorizado");
+
+            const { id } = req.params
+
+            const result = await this.incomeService.deleteIncome(id, req.id);
+
+            const response: IResponse = {
+                ok: true,
+                status: 200,
+                message: "Receita deletada com sucesso",
+                data: result,
+            };
+
+            return res.status(201).json(response);
+        } catch (error) {
+            return ProcessError(res, error);
+        }
     }
 }    

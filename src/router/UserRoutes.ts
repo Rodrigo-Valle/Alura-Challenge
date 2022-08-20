@@ -7,11 +7,11 @@ import { UserService } from "../service/UserService";
 
 const userController = new UserController(new UserService(new UserRepository()));
 
-const routes = Router();
+const userRoutes = Router();
 
 /**
  * @openapi
- * '/user/me':
+ * '/user':
  *  get:
  *     tags:
  *     - User
@@ -44,9 +44,9 @@ const routes = Router();
  *            schema:
  *              $ref: '#/components/schemas/NotFoundError'
  */
- routes.get("/me", auth, (req: Request, res: Response) => userController.getUser(req, res));
+userRoutes.get("", auth, (req: Request, res: Response) => userController.getUser(req, res));
 
-  /**
+/**
  * @openapi
  * '/user/sigin':
  *  post:
@@ -79,7 +79,7 @@ const routes = Router();
  *            schema:
  *              $ref: '#/components/schemas/DataBaseError'
  */
-routes.post("/sigin", validateCreateUserSchema, (req: Request, res: Response) => userController.createUser(req, res));
+userRoutes.post("/sigin", validateCreateUserSchema, (req: Request, res: Response) => userController.createUser(req, res));
 
 /**
  * @openapi
@@ -114,11 +114,11 @@ routes.post("/sigin", validateCreateUserSchema, (req: Request, res: Response) =>
  *            schema:
  *              $ref: '#/components/schemas/NotFoundError'
  */
-routes.post("/login", validateLoginUserSchema, (req: Request, res: Response) => userController.loginUser(req, res));
+ userRoutes.post("/login", validateLoginUserSchema, (req: Request, res: Response) => userController.loginUser(req, res));
 
   /**
  * @openapi
- * '/user/me':
+ * '/user':
  *  patch:
  *     tags:
  *     - User
@@ -163,13 +163,13 @@ routes.post("/login", validateLoginUserSchema, (req: Request, res: Response) => 
  *            schema:
  *              $ref: '#/components/schemas/DataBaseError'
  */
-routes.patch("/me", auth, validateUpdateUserSchema, (req: Request, res: Response) =>
+userRoutes.patch("", auth, validateUpdateUserSchema, (req: Request, res: Response) =>
     userController.updateUser(req, res)
 );
 
 /**
  * @openapi
- * '/user/me':
+ * '/user':
  *  delete:
  *     tags:
  *     - User
@@ -182,7 +182,7 @@ routes.patch("/me", auth, validateUpdateUserSchema, (req: Request, res: Response
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/DeleteUserResponse'
+ *              $ref: '#/components/schemas/DeleteResponse'
  *      401:
  *        description: Unauthorized
  *        content:
@@ -195,7 +195,13 @@ routes.patch("/me", auth, validateUpdateUserSchema, (req: Request, res: Response
  *          application/json:
  *            schema:
  *              $ref: '#/components/schemas/NotFoundError'
+ *      500:
+ *        description: Internal Server Error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/DataBaseError'
  */
-routes.delete("/me", auth, (req: Request, res: Response) => userController.deleteUser(req, res));
+userRoutes.delete("", auth, (req: Request, res: Response) => userController.deleteUser(req, res));
 
-export default routes;
+export default userRoutes;
