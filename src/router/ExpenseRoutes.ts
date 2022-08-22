@@ -1,24 +1,24 @@
 import { Router, Request, Response } from "express";
-import { IncomeController } from "../controller";
-import { IncomeRepository } from "../repository/IncomeRepository";
+import { ExpenseController } from "../controller";
+import { ExpenseRepository } from "../repository/ExpenseRepository";
 import { UserRepository } from "../repository/UserRepository";
-import { IncomeService } from "../service/IncomeService";
+import { ExpenseService } from "../service/ExpenseService";
 import { auth } from "../middleware/Auth";
-import {validateCreateIncomeSchema, validateUpdateIncomeSchema } from "../schema/index"
+import {validateCreateExpenseSchema, validateUpdateExpenseSchema } from "../schema/index"
 
 
-const incomeController = new IncomeController(new IncomeService(new IncomeRepository(), new UserRepository()));
+const expenseController = new ExpenseController(new ExpenseService(new ExpenseRepository(), new UserRepository()));
 
-const incomeRoutes = Router();
+const expenseRoutes = Router();
 
 
 /**
 * @openapi
-* '/income':
+* '/expense':
 *  post:
 *     tags:
-*     - Income
-*     summary: Create a Income
+*     - Expense
+*     summary: Create a Expense
 *     security:
 *       - bearerAuth: []
 *     requestBody:
@@ -26,14 +26,14 @@ const incomeRoutes = Router();
 *      content:
 *        application/json:
 *           schema:
-*              $ref: '#/components/schemas/CreateIncomeInput'
+*              $ref: '#/components/schemas/CreateExpenseInput'
 *     responses:
 *      201:
 *        description: Success
 *        content:
 *          application/json:
 *            schema:
-*              $ref: '#/components/schemas/GetIncomeResponse'
+*              $ref: '#/components/schemas/GetExpenseResponse'
 *      400:
 *        description: Bad equest
 *        content:
@@ -53,15 +53,15 @@ const incomeRoutes = Router();
 *            schema:
 *              $ref: '#/components/schemas/DataBaseError'
 */
-incomeRoutes.post("", auth, validateCreateIncomeSchema, (req: Request, res: Response ) => incomeController.createIncome(req, res));
+expenseRoutes.post("", auth, validateCreateExpenseSchema, (req: Request, res: Response ) => expenseController.createExpense(req, res));
 
 /**
 * @openapi
-* '/income/{id}':
+* '/expense/{id}':
 *  get:
 *     tags:
-*     - Income
-*     summary: Get a Income
+*     - Expense
+*     summary: Get a Expense
 *     security:
 *       - bearerAuth: []
 *     parameters:
@@ -74,7 +74,7 @@ incomeRoutes.post("", auth, validateCreateIncomeSchema, (req: Request, res: Resp
 *        content:
 *          application/json:
 *            schema:
-*              $ref: '#/components/schemas/GetIncomesResponse'
+*              $ref: '#/components/schemas/GetExpensesResponse'
 *      401:
 *        description: Unauthorized
 *        content:
@@ -94,15 +94,15 @@ incomeRoutes.post("", auth, validateCreateIncomeSchema, (req: Request, res: Resp
 *            schema:
 *              $ref: '#/components/schemas/DataBaseError'
 */
-incomeRoutes.get("/:id", auth, (req: Request, res: Response ) => incomeController.getIncome(req, res));
+expenseRoutes.get("/:id", auth, (req: Request, res: Response ) => expenseController.getExpense(req, res));
 
 /**
 * @openapi
-* '/income':
+* '/expense':
 *  get:
 *     tags:
-*     - Income
-*     summary: Get a list of Incomes
+*     - Expense
+*     summary: Get a list of Expenses
 *     security:
 *       - bearerAuth: []
 *     responses:
@@ -111,7 +111,7 @@ incomeRoutes.get("/:id", auth, (req: Request, res: Response ) => incomeControlle
 *        content:
 *          application/json:
 *            schema:
-*              $ref: '#/components/schemas/GetIncomesResponse'
+*              $ref: '#/components/schemas/GetExpensesResponse'
 *      401:
 *        description: Unauthorized
 *        content:
@@ -131,35 +131,35 @@ incomeRoutes.get("/:id", auth, (req: Request, res: Response ) => incomeControlle
 *            schema:
 *              $ref: '#/components/schemas/DataBaseError'
 */
-incomeRoutes.get("", auth, (req: Request, res: Response ) => incomeController.getIncomes(req, res));
+expenseRoutes.get("", auth, (req: Request, res: Response ) => expenseController.getExpenses(req, res));
 
 /**
 * @openapi
-* '/income/{id}':
+* '/expense/{id}':
 *  patch:
 *     tags:
-*     - Income
-*     summary: Update an Income
+*     - Expense
+*     summary: Update an Expense
 *     security:
 *       - bearerAuth: []
 *     parameters:
 *       - in: path
 *         name: id
 *         required: true
-*         description: Income Id
+*         description: Expense Id
 *     requestBody:
 *      required: true
 *      content:
 *        application/json:
 *           schema:
-*              $ref: '#/components/schemas/UpdateIncomeInput'
+*              $ref: '#/components/schemas/UpdateExpenseInput'
 *     responses:
 *      200:
 *        description: Success
 *        content:
 *          application/json:
 *            schema:
-*              $ref: '#/components/schemas/GetIncomeResponse'
+*              $ref: '#/components/schemas/GetExpenseResponse'
 *      400:
 *        description: Bad equest
 *        content:
@@ -185,22 +185,22 @@ incomeRoutes.get("", auth, (req: Request, res: Response ) => incomeController.ge
 *            schema:
 *              $ref: '#/components/schemas/DataBaseError'
 */
-incomeRoutes.patch("/:id", auth, validateUpdateIncomeSchema, (req: Request, res: Response ) => incomeController.updateIncome(req, res));
+expenseRoutes.patch("/:id", auth, validateUpdateExpenseSchema, (req: Request, res: Response ) => expenseController.updateExpense(req, res));
 
 /**
  * @openapi
- * '/income':
+ * '/expense':
  *  delete:
  *     tags:
- *     - Income
- *     summary: Delete a Income
+ *     - Expense
+ *     summary: Delete a Expense
  *     security:
  *       - bearerAuth: []
  *     parameters:
 *       - in: path
 *         name: id
 *         required: true
-*         description: Income Id
+*         description: Expense Id
  *     responses:
  *      200:
  *        description: Success
@@ -227,6 +227,6 @@ incomeRoutes.patch("/:id", auth, validateUpdateIncomeSchema, (req: Request, res:
  *            schema:
  *              $ref: '#/components/schemas/DataBaseError'
  */
-incomeRoutes.delete("/:id", auth, (req: Request, res: Response ) => incomeController.deleteIncome(req, res));
+expenseRoutes.delete("/:id", auth, (req: Request, res: Response ) => expenseController.deleteExpense(req, res));
 
-export default incomeRoutes;
+export default expenseRoutes;
