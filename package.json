@@ -1,28 +1,56 @@
 {
-  "name": "alurachallenge",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node dist/index.js",
-    "build": "tsc -p .",
-    "dev": "nodemon --watch './src/**/*.ts' --exec ts-node ./src/index.ts",
-    "dockerbuild": "docker build -t guigo666/alura-challenge . ",
-    "dockerrun": "docker run -d --env-file ./.env -p 8000:8000 guigo666/alura-challenge"
-  },
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@types/express": "^4.17.13",
-    "ts-node": "^10.9.1",
-    "typescript": "^4.7.4"
-  },
-  "dependencies": {
-    "dotenv": "^16.0.1",
-    "express": "^4.18.1",
-    "mysql": "^2.18.1",
-    "reflect-metadata": "^0.1.13",
-    "typeorm": "^0.3.7"
-  }
+    "name": "alurachallenge",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "jest --passWithNoTests --detectOpenHandles --verbose true --no-cache",
+        "prestart": "npm run build",
+        "start": "ts-node dist/index.js",
+        "build": "tsc -p tsc -p tsconfig-build.json",
+        "dev": "nodemon --watch './src/**/*.ts' --exec ts-node ./src/index.ts",
+        "docker:build": "docker build -t guigo666/alura-challenge . ",
+        "docker:run": "docker run -d --env-file ./.env -p 8000:8000 guigo666/alura-challenge",
+        "typeorm": "typeorm-ts-node-commonjs",
+        "migration:generate": "npm run typeorm migration:generate -- -d ./src/datasource.ts ./src/migrations/%npm_config_migrationName%",
+        "migration:create": "npm run typeorm migration:create ./src/migrations/%npm_config_migrationName%",
+        "migration:up": "npm run typeorm migration:run -- -d ./src/datasource.ts",
+        "migration:down": "npm run typeorm migration:revert -- -d ./src/datasource.ts"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@babel/core": "^7.18.10",
+        "@babel/preset-env": "^7.18.10",
+        "@babel/preset-typescript": "^7.18.6",
+        "@jest-mock/express": "^2.0.1",
+        "@types/bcryptjs": "^2.4.2",
+        "@types/express": "^4.17.13",
+        "@types/jest": "^28.1.6",
+        "@types/jsonwebtoken": "^8.5.8",
+        "@types/node": "^18.7.1",
+        "@types/swagger-jsdoc": "^6.0.1",
+        "@types/swagger-ui-express": "^4.1.3",
+        "@types/uuid": "^8.3.4",
+        "babel-jest": "^28.1.3",
+        "jest": "^28.1.3",
+        "jest-mock-extended": "^2.0.7",
+        "prettier": "2.7.1",
+        "ts-jest": "^28.0.7",
+        "ts-node": "^10.9.1",
+        "typescript": "^4.7.4"
+    },
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "dotenv": "^16.0.1",
+        "express": "^4.18.1",
+        "joi": "^17.6.0",
+        "jsonwebtoken": "^8.5.1",
+        "mysql": "^2.18.1",
+        "reflect-metadata": "^0.1.13",
+        "swagger-jsdoc": "^6.2.5",
+        "swagger-ui-express": "^4.5.0",
+        "uuid": "^8.3.2",
+        "winston": "^3.8.1"
+    }
 }
