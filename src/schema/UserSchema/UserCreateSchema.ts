@@ -3,54 +3,6 @@ import { Request, Response, NextFunction } from "express";
 import { validateBody } from "../../utils/schemaValidator";
 import { ProcessError } from "../../utils/processError";
 
-/**
- * @openapi
- * components:
- *  schemas:
- *    SiginUserInput:
- *      type: object
- *      required:
- *        - email
- *        - password
- *        - name
- *        - cpf
- *      properties:
- *        email:
- *          type: string
- *          default: email@example.com
- *        password:
- *          type: string
- *          default: 12345678
- *        name:
- *          type: string
- *          default: Nome
- *        cpf:
- *          type: string
- *          default: 11122233344
- *    SiginUserResponse:
- *      type: object
- *      properties:
- *        ok:
- *          type: boolean
- *          default: true
- *        status:
- *          type: number
- *          default: 201
- *        message:
- *          type: string
- *        data:
- *          type: object
- *          properties:
- *            id:
- *              type: string
- *            cpf:
- *              type: string
- *            name:
- *              type: string
- *            email:
- *              type: string
- */
-
 const userCreateSchema = joi.object({
     id: joi.any().forbidden(),
     cpf: joi.string().length(11).required().pattern(new RegExp(/\d/)).messages({

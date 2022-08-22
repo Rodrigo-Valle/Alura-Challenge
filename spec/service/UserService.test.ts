@@ -96,11 +96,7 @@ describe('UserService updateUser', () => {
 
     it('should return an user when updateUser is successful two', async () => {
         try {
-            delete updateUserMock.cpf;
-            delete updateUserMock.email;
-            delete updateUserMock.name;
-            delete updateUserMock.password;
-            const response = await userServiceTest.updateUser("1", updateUserMock);
+            const response = await userServiceTest.updateUser("1", {});
 
             expect(response).toEqual(userResponseMock);
         } catch (error) {}
@@ -117,10 +113,11 @@ describe('UserService deleteUser',  () => {
         }
     })
 
-    it('should throw an error when not found in deleteUser', async () => {
+    it('should return a delete response when deleteUser successfully', async () => {
         try {
             const response = await userServiceTest.deleteUser("1");
 
+            expect(response.affected).toEqual(1);
         } catch (error) {}
     })
 })

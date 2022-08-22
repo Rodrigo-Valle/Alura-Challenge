@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "jest --passWithNoTests --detectOpenHandles --verbose false --no-cache",
+        "test": "jest --passWithNoTests --detectOpenHandles --verbose true --no-cache",
         "start": "ts-node dist/index.js",
         "build": "tsc -p tsc -p tsconfig-build.json",
         "dev": "nodemon --watch './src/**/*.ts' --exec ts-node ./src/index.ts",
@@ -17,6 +17,7 @@
         "@babel/core": "^7.18.10",
         "@babel/preset-env": "^7.18.10",
         "@babel/preset-typescript": "^7.18.6",
+        "@jest-mock/express": "^2.0.1",
         "@types/bcryptjs": "^2.4.2",
         "@types/express": "^4.17.13",
         "@types/jest": "^28.1.6",

@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryColumn } from "typeorm";
+import { Entity, Column, PrimaryColumn, OneToMany } from "typeorm";
 import { v4 as uuidv4 } from "uuid";
+import { Income } from "./income.entity";
 
 @Entity()
 export class User {
@@ -17,6 +18,9 @@ export class User {
 
     @Column({ name: "senha" })
     public password: string;
+
+    @OneToMany(() => Income, (income) => income.user)
+    public income?: Income[]
 
     constructor(cpf: string, name: string, email: string, password: string, id?: string) {
         this.cpf = cpf;

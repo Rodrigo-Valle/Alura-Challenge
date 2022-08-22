@@ -56,29 +56,7 @@
  *          type: string
  *        detail:
  *          type: string
- *    GetUserResponse:
- *      type: object
- *      properties:
- *        ok:
- *          type: boolean
- *          default: true
- *        status:
- *          type: number
- *          default: 201
- *        message:
- *          type: string
- *        data:
- *          type: object
- *          properties:
- *            id:
- *              type: string
- *            cpf:
- *              type: string
- *            name:
- *              type: string
- *            email:
- *              type: string
- *    DeleteUserResponse:
+ *    DeleteResponse:
  *      type: object
  *      properties:
  *        ok:
@@ -97,6 +75,3 @@
  *            affected:
  *              type: string
  */
-
-
-
