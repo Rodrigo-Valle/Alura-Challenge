@@ -1,26 +1,17 @@
-FROM node:16-alpine as build
-
-WORKDIR /usr/src/app
-
-COPY package*.json .
-
+FROM node:16.16.0-alpine
+WORKDIR /usr
+COPY package.json ./
+COPY tsconfig.json ./
+COPY src ./src
+RUN ls -a
 RUN npm install
-
-COPY . .
-
 RUN npm run build
-
 ## this is stage two , where the app actually runs
-FROM node:16-alpine as production
-
-WORKDIR /usr/src/app
-
-COPY package*.json .
-
-RUN npm ci --only=production
-
-COPY --from=build /usr/src/app/dist ./dist
-
+FROM node:16.16.0-alpine
+WORKDIR /usr
+COPY package.json ./
+RUN npm install
+COPY --from=0 /usr/dist .
+RUN npm install pm2 -g
 EXPOSE 8000
-
-CMD ["node","dist/index.js"]
+CMD ["pm2-runtime","index.js"]

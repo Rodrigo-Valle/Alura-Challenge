@@ -1,8 +1,0 @@
-node_modules
-dist
-coverage
-.vscode
-.env
-.gitignore
-dockerfile
-.dockerignore
