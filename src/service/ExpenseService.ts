@@ -36,6 +36,7 @@ export class ExpenseService implements IExpenseService {
             description: result.description,
             value: result.value,
             date: result.date,
+            category: result.category
         };
 
         return reponse;
@@ -52,6 +53,7 @@ export class ExpenseService implements IExpenseService {
                 description: expense.description,
                 value: expense.value,
                 date: expense.date,
+                category: expense.category
             };
             return expenseMapped;
         });
@@ -67,6 +69,7 @@ export class ExpenseService implements IExpenseService {
             description: result.description,
             value: result.value,
             date: result.date,
+            category: result.category
         };
 
         return reponse;
@@ -87,6 +90,7 @@ export class ExpenseService implements IExpenseService {
                 : expense.description,
             value: updateExpenseData.value ? updateExpenseData.value : expense.value,
             date: updateExpenseData.date ? updateExpenseData.date : expense.date,
+            category: updateExpenseData.category ? updateExpenseData.category : expense.category,
             id: expense.id,
             user: expense.user,
         };
@@ -98,6 +102,7 @@ export class ExpenseService implements IExpenseService {
             description: result.description,
             value: result.value,
             date: result.date,
+            category: result.category
         };
 
         return reponse;
