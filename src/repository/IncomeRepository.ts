@@ -24,31 +24,31 @@ export class IncomeRepository implements IIncomeRepository {
         try {
             return await this.incomeRepository.find({
                 relations: {
-                    user: true
+                    user: true,
                 },
                 where: {
                     user: {
-                        id: id
-                    }
-                }
+                        id: id,
+                    },
+                },
             });
         } catch (error: any) {
             throw new DataBaseError("Erro ao buscar receita", error, error.code);
         }
     }
-    
+
     public async getIncomeById(id: string, userId: string): Promise<Income | null> {
         try {
             return await this.incomeRepository.findOne({
                 relations: {
-                    user: true
+                    user: true,
                 },
                 where: {
                     id: id,
                     user: {
-                        id: userId
-                    }
-                }
+                        id: userId,
+                    },
+                },
             });
         } catch (error: any) {
             throw new DataBaseError("Erro ao salvar receita", error, error.code);
@@ -57,12 +57,13 @@ export class IncomeRepository implements IIncomeRepository {
 
     public async deleteIncome(id: string, userId: string): Promise<DeleteResult> {
         try {
-            return await this.incomeRepository.createQueryBuilder()
-            .delete()
-            .from('Income')
-            .where("id = :incomeId", {incomeId: id})
-            .andWhere("userId = :userId", {userId: userId})
-            .execute();
+            return await this.incomeRepository
+                .createQueryBuilder()
+                .delete()
+                .from("Income")
+                .where("id = :incomeId", { incomeId: id })
+                .andWhere("userId = :userId", { userId: userId })
+                .execute();
         } catch (error: any) {
             throw new DataBaseError("Erro ao deletar receita", error, error.code);
         }

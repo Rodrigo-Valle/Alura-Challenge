@@ -2,7 +2,7 @@
  * @openapi
  * components:
  *  schemas:
- *    CreateIncomeInput:
+ *    CreateExpenseInput:
  *      type: object
  *      required:
  *        - description

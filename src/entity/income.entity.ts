@@ -1,13 +1,13 @@
 import { Entity, Column, PrimaryColumn, ManyToOne } from "typeorm";
 import { v4 as uuidv4 } from "uuid";
-import { User } from "./index"
+import { User } from "./index";
 
 @Entity()
 export class Income {
     @PrimaryColumn()
     public id: string;
 
-    @Column({ name: 'descricao' })
+    @Column({ name: "descricao" })
     public description: string;
 
     @Column({ name: "valor" })
@@ -17,7 +17,7 @@ export class Income {
     public date: Date;
 
     @ManyToOne(() => User, (user: User) => user.id, { onDelete: "CASCADE" })
-    user: User
+    user: User;
 
     constructor(description: string, value: number, date: Date, user: User, id?: string) {
         this.description = description;

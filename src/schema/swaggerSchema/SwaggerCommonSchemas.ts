@@ -64,7 +64,7 @@
  *          default: true
  *        status:
  *          type: number
- *          default: 201
+ *          default: 200
  *        message:
  *          type: string
  *        data:

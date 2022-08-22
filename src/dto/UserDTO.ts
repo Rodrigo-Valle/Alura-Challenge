@@ -30,4 +30,4 @@ interface ITokenResponseDTO {
     token: string;
 }
 
-export {ITokenResponseDTO, IUpdateUserDTO, ILoginDTO, ISaveUserDTO, IUserResponseDTO}
+export { ITokenResponseDTO, IUpdateUserDTO, ILoginDTO, ISaveUserDTO, IUserResponseDTO };

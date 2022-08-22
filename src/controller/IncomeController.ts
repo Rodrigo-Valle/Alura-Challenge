@@ -5,7 +5,7 @@ import { UnauthorizedError } from "../utils/exceptions";
 import { ProcessError } from "../utils/processError";
 import { IIncomeController } from "./interface/IIncomeController";
 
-export class IncomeController implements IIncomeController{
+export class IncomeController implements IIncomeController {
     private readonly incomeService: IIncomeService;
 
     constructor(incomeService: IIncomeService) {
@@ -14,7 +14,8 @@ export class IncomeController implements IIncomeController{
 
     public async createIncome(req: Request, res: Response): Promise<Response> {
         try {
-            if (req.id === undefined) throw new UnauthorizedError("Usuário não autorizado");
+            if (req.id === undefined)
+                throw new UnauthorizedError("Usuário não autorizado");
 
             const result = await this.incomeService.createIncome(req.body, req.id);
 
@@ -33,9 +34,10 @@ export class IncomeController implements IIncomeController{
 
     public async getIncome(req: Request, res: Response): Promise<Response> {
         try {
-            if (req.id === undefined) throw new UnauthorizedError("Usuário não autorizado");
+            if (req.id === undefined)
+                throw new UnauthorizedError("Usuário não autorizado");
 
-            const { id } = req.params
+            const { id } = req.params;
             const result = await this.incomeService.getIncome(id, req.id);
 
             const response: IResponse = {
@@ -53,7 +55,8 @@ export class IncomeController implements IIncomeController{
 
     public async getIncomes(req: Request, res: Response): Promise<Response> {
         try {
-            if (req.id === undefined) throw new UnauthorizedError("Usuário não autorizado");
+            if (req.id === undefined)
+                throw new UnauthorizedError("Usuário não autorizado");
 
             const result = await this.incomeService.getIncomes(req.id);
 
@@ -72,9 +75,10 @@ export class IncomeController implements IIncomeController{
 
     public async updateIncome(req: Request, res: Response): Promise<Response> {
         try {
-            if (req.id === undefined) throw new UnauthorizedError("Usuário não autorizado");
+            if (req.id === undefined)
+                throw new UnauthorizedError("Usuário não autorizado");
 
-            const { id } = req.params
+            const { id } = req.params;
 
             const result = await this.incomeService.updateIncome(id, req.body, req.id);
 
@@ -93,9 +97,10 @@ export class IncomeController implements IIncomeController{
 
     public async deleteIncome(req: Request, res: Response): Promise<Response> {
         try {
-            if (req.id === undefined) throw new UnauthorizedError("Usuário não autorizado");
+            if (req.id === undefined)
+                throw new UnauthorizedError("Usuário não autorizado");
 
-            const { id } = req.params
+            const { id } = req.params;
 
             const result = await this.incomeService.deleteIncome(id, req.id);
 
@@ -111,4 +116,4 @@ export class IncomeController implements IIncomeController{
             return ProcessError(res, error);
         }
     }
-}    
+}

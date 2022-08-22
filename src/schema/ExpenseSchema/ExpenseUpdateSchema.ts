@@ -5,12 +5,9 @@ import { ProcessError } from "../../utils/processError";
 
 const expenseUpdateSchema = joi.object({
     id: joi.any().forbidden(),
-    description: joi.string().optional().messages({
-    }),
-    value: joi.number().optional().messages({
-    }),
-    date: joi.date().optional().messages({
-    }),
+    description: joi.string().optional().messages({}),
+    value: joi.number().optional().messages({}),
+    date: joi.date().optional().messages({}),
 });
 
 export const validateUpdateExpenseSchema = async (

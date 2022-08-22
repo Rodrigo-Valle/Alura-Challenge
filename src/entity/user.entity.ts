@@ -21,10 +21,10 @@ export class User {
     public password: string;
 
     @OneToMany(() => Income, (income) => income.user)
-    public income?: Income[]
+    public income?: Income[];
 
     @OneToMany(() => Expense, (expense) => expense.user)
-    public expense?: Expense[]
+    public expense?: Expense[];
 
     constructor(cpf: string, name: string, email: string, password: string, id?: string) {
         this.cpf = cpf;

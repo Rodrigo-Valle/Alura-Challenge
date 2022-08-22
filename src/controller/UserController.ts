@@ -47,7 +47,8 @@ export class UserController implements IUserController {
 
     public async getUser(req: Request, res: Response): Promise<Response> {
         try {
-            if (req.id === undefined) throw new UnauthorizedError("Usuário não autorizado");
+            if (req.id === undefined)
+                throw new UnauthorizedError("Usuário não autorizado");
 
             const result = await this.userService.getUser(req.id);
 
@@ -66,7 +67,8 @@ export class UserController implements IUserController {
 
     public async updateUser(req: Request, res: Response): Promise<Response> {
         try {
-            if (req.id === undefined) throw new UnauthorizedError("Usuário não autorizado");
+            if (req.id === undefined)
+                throw new UnauthorizedError("Usuário não autorizado");
 
             const result = await this.userService.updateUser(req.id, req.body);
 
@@ -85,7 +87,8 @@ export class UserController implements IUserController {
 
     public async deleteUser(req: Request, res: Response): Promise<Response> {
         try {
-            if (req.id === undefined) throw new UnauthorizedError("Usuário não autorizado");
+            if (req.id === undefined)
+                throw new UnauthorizedError("Usuário não autorizado");
 
             const result = await this.userService.deleteUser(req.id);
 

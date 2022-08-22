@@ -24,31 +24,31 @@ export class ExpenseRepository implements IExpenseRepository {
         try {
             return await this.expenseRepository.find({
                 relations: {
-                    user: true
+                    user: true,
                 },
                 where: {
                     user: {
-                        id: id
-                    }
-                }
+                        id: id,
+                    },
+                },
             });
         } catch (error: any) {
             throw new DataBaseError("Erro ao buscar despesa", error, error.code);
         }
     }
-    
+
     public async getExpenseById(id: string, userId: string): Promise<Expense | null> {
         try {
             return await this.expenseRepository.findOne({
                 relations: {
-                    user: true
+                    user: true,
                 },
                 where: {
                     id: id,
                     user: {
-                        id: userId
-                    }
-                }
+                        id: userId,
+                    },
+                },
             });
         } catch (error: any) {
             throw new DataBaseError("Erro ao salvar despesa", error, error.code);
@@ -57,12 +57,13 @@ export class ExpenseRepository implements IExpenseRepository {
 
     public async deleteExpense(id: string, userId: string): Promise<DeleteResult> {
         try {
-            return await this.expenseRepository.createQueryBuilder()
-            .delete()
-            .from('Expense')
-            .where("id = :expenseId", {expenseId: id})
-            .andWhere("userId = :userId", {userId: userId})
-            .execute();
+            return await this.expenseRepository
+                .createQueryBuilder()
+                .delete()
+                .from("Expense")
+                .where("id = :expenseId", { expenseId: id })
+                .andWhere("userId = :userId", { userId: userId })
+                .execute();
         } catch (error: any) {
             throw new DataBaseError("Erro ao deletar despesa", error, error.code);
         }

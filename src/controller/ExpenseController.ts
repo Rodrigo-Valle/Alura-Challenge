@@ -5,7 +5,7 @@ import { UnauthorizedError } from "../utils/exceptions";
 import { ProcessError } from "../utils/processError";
 import { IExpenseController } from "./interface/IExpenseController";
 
-export class ExpenseController implements IExpenseController{
+export class ExpenseController implements IExpenseController {
     private readonly expenseService: IExpenseService;
 
     constructor(expenseService: IExpenseService) {
@@ -14,7 +14,8 @@ export class ExpenseController implements IExpenseController{
 
     public async createExpense(req: Request, res: Response): Promise<Response> {
         try {
-            if (req.id === undefined) throw new UnauthorizedError("Usuário não autorizado");
+            if (req.id === undefined)
+                throw new UnauthorizedError("Usuário não autorizado");
 
             const result = await this.expenseService.createExpense(req.body, req.id);
 
@@ -33,9 +34,10 @@ export class ExpenseController implements IExpenseController{
 
     public async getExpense(req: Request, res: Response): Promise<Response> {
         try {
-            if (req.id === undefined) throw new UnauthorizedError("Usuário não autorizado");
+            if (req.id === undefined)
+                throw new UnauthorizedError("Usuário não autorizado");
 
-            const { id } = req.params
+            const { id } = req.params;
             const result = await this.expenseService.getExpense(id, req.id);
 
             const response: IResponse = {
@@ -53,7 +55,8 @@ export class ExpenseController implements IExpenseController{
 
     public async getExpenses(req: Request, res: Response): Promise<Response> {
         try {
-            if (req.id === undefined) throw new UnauthorizedError("Usuário não autorizado");
+            if (req.id === undefined)
+                throw new UnauthorizedError("Usuário não autorizado");
 
             const result = await this.expenseService.getExpenses(req.id);
 
@@ -72,9 +75,10 @@ export class ExpenseController implements IExpenseController{
 
     public async updateExpense(req: Request, res: Response): Promise<Response> {
         try {
-            if (req.id === undefined) throw new UnauthorizedError("Usuário não autorizado");
+            if (req.id === undefined)
+                throw new UnauthorizedError("Usuário não autorizado");
 
-            const { id } = req.params
+            const { id } = req.params;
 
             const result = await this.expenseService.updateExpense(id, req.body, req.id);
 
@@ -93,9 +97,10 @@ export class ExpenseController implements IExpenseController{
 
     public async deleteExpense(req: Request, res: Response): Promise<Response> {
         try {
-            if (req.id === undefined) throw new UnauthorizedError("Usuário não autorizado");
+            if (req.id === undefined)
+                throw new UnauthorizedError("Usuário não autorizado");
 
-            const { id } = req.params
+            const { id } = req.params;
 
             const result = await this.expenseService.deleteExpense(id, req.id);
 
@@ -111,4 +116,4 @@ export class ExpenseController implements IExpenseController{
             return ProcessError(res, error);
         }
     }
-}    
+}
