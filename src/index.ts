@@ -1,20 +1,17 @@
-import "reflect-metadata";
-import "dotenv/config";
-import { AppDataSource } from "./datasource";
-import { app } from "./app";
-import swagger from "./utils/swagger";
-import logger from "./utils/logger";
+import 'reflect-metadata'
+import 'dotenv/config';
+import { AppDataSource } from "./datasource"
+import { app } from './app';
 
-const port = process.env.APP_PORT || "8000";
+const port = process.env.APP_PORT || 8000
 
-AppDataSource.initialize()
-    .then(() => {
-        logger.info("[Startup - Database Connection] DataSource initialized");
-        app.listen(port, () => {
-            logger.info(`[Startup - Server] App running on http://localhost:${port}/`);
-            swagger(app, port);
-        });
+console.log(process.env.APP_PORT)
+
+AppDataSource.initialize().then(() => {
+    console.log("DataSource initialized");
+    app.listen(port, () => {
+        console.log(`Express server has started on port ${port} . Open http://localhost:${port}/ to see results`)
     })
-    .catch((e) => {
-        logger.error(e);
-    });
+}).catch((e) => {
+    console.log(e);
+})
