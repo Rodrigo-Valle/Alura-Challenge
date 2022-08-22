@@ -1,11 +1,17 @@
-import { ILoginDTO, ISaveUserDTO, ITokenResponseDTO, IUpdateUserDTO, IUserResponseDTO } from "../dto/UserDTO";
+import {
+    ILoginDTO,
+    ISaveUserDTO,
+    ITokenResponseDTO,
+    IUpdateUserDTO,
+    IUserResponseDTO,
+} from "../dto/UserDTO";
 import { IUserRepository } from "../repository/interface/IUserRepository";
 import { IUserService } from "./interface/IUserService";
 import bcryptjs from "bcryptjs";
 import { v4 as uuid } from "uuid";
 import { NotFoundError, UnauthorizedError } from "../utils/exceptions";
 import { DeleteResult } from "typeorm";
-import { generateAuthToken} from "../utils/tokenGenerator"
+import { generateAuthToken } from "../utils/tokenGenerator";
 
 export class UserService implements IUserService {
     private readonly userRepository: IUserRepository;
@@ -42,8 +48,8 @@ export class UserService implements IUserService {
         }
 
         const token: ITokenResponseDTO = {
-            token: generateAuthToken(user.id)
-        }
+            token: generateAuthToken(user.id),
+        };
 
         return token;
     }
@@ -63,7 +69,10 @@ export class UserService implements IUserService {
         return response;
     }
 
-    public async updateUser(id: string, updateUserData: IUpdateUserDTO): Promise<IUserResponseDTO> {
+    public async updateUser(
+        id: string,
+        updateUserData: IUpdateUserDTO
+    ): Promise<IUserResponseDTO> {
         const user = await this.userRepository.getUserById(id);
 
         if (!user) throw new NotFoundError("Usuário não localizado");
@@ -71,7 +80,9 @@ export class UserService implements IUserService {
         const updatedUser: ISaveUserDTO = {
             name: updateUserData.name ? updateUserData.name : user.name,
             email: updateUserData.email ? updateUserData.email : user.email,
-            password: updateUserData.password ? await bcryptjs.hash(updateUserData.password, 8) : user.password,
+            password: updateUserData.password
+                ? await bcryptjs.hash(updateUserData.password, 8)
+                : user.password,
             id: user.id,
             cpf: user.cpf,
         };
@@ -91,7 +102,11 @@ export class UserService implements IUserService {
     public async deleteUser(id: string): Promise<DeleteResult> {
         const result = await this.userRepository.deleteUser(id);
 
-        if (result.affected === null || result.affected === undefined || result.affected < 1)
+        if (
+            result.affected === null ||
+            result.affected === undefined ||
+            result.affected < 1
+        )
             throw new NotFoundError("Usuário não localizado");
 
         return result;

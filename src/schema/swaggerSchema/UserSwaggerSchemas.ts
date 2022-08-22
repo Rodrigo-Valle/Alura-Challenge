@@ -57,7 +57,7 @@
  *          default: 200
  *        message:
  *          type: string
- *        data: 
+ *        data:
  *          type: object
  *          properties:
  *            token:
@@ -115,6 +115,3 @@
  *          type: string
  *          default: 11122233344
  */
-
-
-

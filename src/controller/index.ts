@@ -1,5 +1,3 @@
-import { UserController } from "./UserController";
-import { IncomeController } from "./IncomeController";
-
-
-export { UserController, IncomeController }
+export * from "./UserController";
+export * from "./IncomeController";
+export * from "./ExpenseController";

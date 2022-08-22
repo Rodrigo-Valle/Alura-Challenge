@@ -1,9 +1,13 @@
 import { Router, Request, Response } from "express";
-import { UserController } from "../controller";
 import { auth } from "../middleware/Auth";
-import { UserRepository } from "../repository/UserRepository";
-import { validateCreateUserSchema, validateLoginUserSchema, validateUpdateUserSchema } from "../schema";
-import { UserService } from "../service/UserService";
+import { UserController } from "../controller";
+import { UserRepository } from "../repository";
+import { UserService } from "../service";
+import {
+    validateCreateUserSchema,
+    validateLoginUserSchema,
+    validateUpdateUserSchema,
+} from "../schema";
 
 const userController = new UserController(new UserService(new UserRepository()));
 
@@ -44,7 +48,9 @@ const userRoutes = Router();
  *            schema:
  *              $ref: '#/components/schemas/NotFoundError'
  */
-userRoutes.get("", auth, (req: Request, res: Response) => userController.getUser(req, res));
+userRoutes.get("", auth, (req: Request, res: Response) =>
+    userController.getUser(req, res)
+);
 
 /**
  * @openapi
@@ -79,7 +85,9 @@ userRoutes.get("", auth, (req: Request, res: Response) => userController.getUser
  *            schema:
  *              $ref: '#/components/schemas/DataBaseError'
  */
-userRoutes.post("/sigin", validateCreateUserSchema, (req: Request, res: Response) => userController.createUser(req, res));
+userRoutes.post("/sigin", validateCreateUserSchema, (req: Request, res: Response) =>
+    userController.createUser(req, res)
+);
 
 /**
  * @openapi
@@ -114,9 +122,11 @@ userRoutes.post("/sigin", validateCreateUserSchema, (req: Request, res: Response
  *            schema:
  *              $ref: '#/components/schemas/NotFoundError'
  */
- userRoutes.post("/login", validateLoginUserSchema, (req: Request, res: Response) => userController.loginUser(req, res));
+userRoutes.post("/login", validateLoginUserSchema, (req: Request, res: Response) =>
+    userController.loginUser(req, res)
+);
 
-  /**
+/**
  * @openapi
  * '/user':
  *  patch:
@@ -202,6 +212,8 @@ userRoutes.patch("", auth, validateUpdateUserSchema, (req: Request, res: Respons
  *            schema:
  *              $ref: '#/components/schemas/DataBaseError'
  */
-userRoutes.delete("", auth, (req: Request, res: Response) => userController.deleteUser(req, res));
+userRoutes.delete("", auth, (req: Request, res: Response) =>
+    userController.deleteUser(req, res)
+);
 
 export default userRoutes;

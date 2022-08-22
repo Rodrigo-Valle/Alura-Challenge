@@ -1,5 +1,11 @@
 import { DeleteResult } from "typeorm";
-import { ILoginDTO, ISaveUserDTO, ITokenResponseDTO, IUpdateUserDTO, IUserResponseDTO } from "../../dto/UserDTO";
+import {
+    ILoginDTO,
+    ISaveUserDTO,
+    ITokenResponseDTO,
+    IUpdateUserDTO,
+    IUserResponseDTO,
+} from "../../dto/UserDTO";
 
 export interface IUserService {
     createUser(createUserData: ISaveUserDTO): Promise<IUserResponseDTO>;

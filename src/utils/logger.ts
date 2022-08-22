@@ -1,24 +1,22 @@
-import winston from 'winston';
+import winston from "winston";
 
 let alignColorsAndTime = winston.format.combine(
     winston.format.colorize({
-        all:true
+        all: true,
     }),
     winston.format.timestamp({
-        format:"YY-MM-DD HH:mm:ss"
+        format: "YY-MM-DD HH:mm:ss",
     }),
-    winston.format.printf(
-        info => `${info.timestamp}  ${info.level} : ${info.message}`
-    )
+    winston.format.printf((info) => `${info.timestamp}  ${info.level} : ${info.message}`)
 );
-    
+
 const logger = winston.createLogger({
     level: "debug",
-    silent: process.env.NODE_ENV === 'test' ? true : false,
+    silent: process.env.NODE_ENV === "test" ? true : false,
     transports: [
-        new (winston.transports.Console)({
-            format: winston.format.combine(winston.format.colorize(), alignColorsAndTime)
-        })
+        new winston.transports.Console({
+            format: winston.format.combine(winston.format.colorize(), alignColorsAndTime),
+        }),
     ],
 });
 
