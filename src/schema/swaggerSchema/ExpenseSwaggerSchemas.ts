@@ -8,6 +8,8 @@
  *        - description
  *        - value
  *        - date
+ *      optional:
+ *        - category
  *      properties:
  *        description:
  *          type: string
@@ -19,12 +21,16 @@
  *          type: string
  *          format: date
  *          default: YYYY-MM-DD
+ *        category:
+ *          type: string
+ *          default: outras
  *    UpdateExpenseInput:
  *      type: object
  *      optional:
  *        - description
  *        - value
  *        - date
+ *        - category
  *      properties:
  *        description:
  *          type: string
@@ -36,6 +42,9 @@
  *          type: string
  *          format: date
  *          default: YYYY-MM-DD
+ *        category:
+ *          type: string
+ *          default: outras
  *    GetExpensesResponse:
  *      type: object
  *      properties:
@@ -61,6 +70,8 @@
  *              date:
  *                type: string
  *                format: date
+ *              category:
+ *                type: string
  *    GetExpenseResponse:
  *      type: object
  *      properties:
@@ -84,4 +95,6 @@
  *            date:
  *              type: string
  *              format: date
+ *            category:
+ *              type: string
  */
