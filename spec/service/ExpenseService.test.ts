@@ -48,13 +48,13 @@ describe("Expense Service", () => {
 
     describe("GetExpenses", () => {
         it("should return an array of expense when GetExpenses susscefully", async () => {
-            const response = await expenseServiceTest.getExpenses("1");
+            const response = await expenseServiceTest.getExpenses("1", "");
             expect(response).toEqual([expenseResponseMock]);
         });
 
         it("should throw an error when expenses not found in GetExpenses", async () => {
             try {
-                const response = await expenseServiceTest.getExpenses("2");
+                const response = await expenseServiceTest.getExpenses("2", "");
             } catch (error) {
                 expect(error).toBeInstanceOf(NotFoundError);
             }

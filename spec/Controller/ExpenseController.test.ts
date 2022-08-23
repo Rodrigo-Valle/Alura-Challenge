@@ -5,6 +5,7 @@ import { getMockReq, getMockRes } from "@jest-mock/express";
 
 const expenseControllerTest = new ExpenseController(new ExpenseServiceMock());
 const req = getMockReq({ id: "1", params: { id: "1" } });
+const reqWithQuery = getMockReq({ id: "1", params: { id: "1" }, query: { description: "test"} });
 const reqUnauthorized = getMockReq();
 const { res } = getMockRes();
 
@@ -128,7 +129,7 @@ describe("ExpenseController", () => {
 
     describe("getExpenses", () => {
         it("should return an array of Expense when getExpenses susscefully", async () => {
-            await expenseControllerTest.getExpenses(req, res);
+            await expenseControllerTest.getExpenses(reqWithQuery, res);
             expect(res.status).toBeCalledWith(200);
             expect(res.json).toBeCalledWith({
                 ok: true,

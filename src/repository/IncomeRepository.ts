@@ -1,4 +1,4 @@
-import { DeleteResult } from "typeorm";
+import { DeleteResult, Like } from "typeorm";
 import { AppDataSource } from "../datasource";
 import { ISaveIncomeDTO } from "../dto/IncomeDTO";
 import { Income } from "../entity";
@@ -20,7 +20,7 @@ export class IncomeRepository implements IIncomeRepository {
         }
     }
 
-    public async getIncomesById(id: string): Promise<Income[] | null> {
+    public async getIncomesById(id: string, description: string): Promise<Income[] | null> {
         try {
             return await this.incomeRepository.find({
                 relations: {
@@ -30,6 +30,7 @@ export class IncomeRepository implements IIncomeRepository {
                     user: {
                         id: id,
                     },
+                    description: Like(`%${description}%`)
                 },
             });
         } catch (error: any) {

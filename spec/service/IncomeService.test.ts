@@ -2,7 +2,7 @@ import { IncomeRepositoryMock } from "../mocks/repository/IncomeRepositoryMock";
 import { IncomeService } from "../../src/service/IncomeService";
 import { UserRepositoryMock } from "../mocks/repository/UserRepositoryMock";
 import { incomeCreateMock, incomeResponseMock } from "../mocks/dto/IncomeMock";
-import { NotFoundError, UnauthorizedError } from "../../src/utils/exceptions";
+import { NotFoundError } from "../../src/utils/exceptions";
 
 const incomeServiceTest = new IncomeService(
     new IncomeRepositoryMock(),
@@ -45,13 +45,13 @@ describe("Income Service", () => {
 
     describe("GetIncomes", () => {
         it("should return an array of income when GetIncomes susscefully", async () => {
-            const response = await incomeServiceTest.getIncomes("1");
+            const response = await incomeServiceTest.getIncomes("1", "");
             expect(response).toEqual([incomeResponseMock]);
         });
 
         it("should throw an error when incomes not found in GetIncomes", async () => {
             try {
-                const response = await incomeServiceTest.getIncomes("2");
+                const response = await incomeServiceTest.getIncomes("2", "");
             } catch (error) {
                 expect(error).toBeInstanceOf(NotFoundError);
             }

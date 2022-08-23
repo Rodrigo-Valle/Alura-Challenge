@@ -42,8 +42,8 @@ export class ExpenseService implements IExpenseService {
         return reponse;
     }
 
-    public async getExpenses(userId: string): Promise<IExpenseResponseDTO[]> {
-        const result = await this.expenseRepository.getExpensesById(userId);
+    public async getExpenses(userId: string, description: string): Promise<IExpenseResponseDTO[]> {
+        const result = await this.expenseRepository.getExpensesById(userId, description);
 
         if (!result) throw new NotFoundError("Despesas não localizadas");
 
