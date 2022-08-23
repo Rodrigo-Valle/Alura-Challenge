@@ -2,7 +2,7 @@ import { Router, Request, Response } from "express";
 import { auth } from "../middleware/Auth";
 import { IncomeController } from "../controller";
 import { IncomeRepository, UserRepository } from "../repository";
-import { IncomeService } from "../service";
+import { IncomeService } from "../service/IncomeService";
 import { validateCreateIncomeSchema, validateUpdateIncomeSchema } from "../schema/index";
 
 const incomeController = new IncomeController(

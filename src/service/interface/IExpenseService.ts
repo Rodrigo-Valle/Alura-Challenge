@@ -10,7 +10,7 @@ export interface IExpenseService {
         createExpenseData: ISaveExpenseDTO,
         userId: string
     ): Promise<IExpenseResponseDTO>;
-    getExpenses(userId: string): Promise<IExpenseResponseDTO[]>;
+    getExpenses(userId: string, description: string): Promise<IExpenseResponseDTO[]>;
     getExpense(id: string, userId: string): Promise<IExpenseResponseDTO>;
     updateExpense(
         id: string,

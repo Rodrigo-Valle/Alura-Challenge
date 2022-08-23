@@ -57,8 +57,9 @@ export class IncomeController implements IIncomeController {
         try {
             if (req.id === undefined)
                 throw new UnauthorizedError("Usuário não autorizado");
-
-            const result = await this.incomeService.getIncomes(req.id);
+            
+            const { description } = req.query;
+            const result = await this.incomeService.getIncomes(req.id, description?.toString() || "");
 
             const response: IResponse = {
                 ok: true,

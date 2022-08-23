@@ -37,8 +37,8 @@ export class IncomeService implements IIncomeService {
         return reponse;
     }
 
-    public async getIncomes(userId: string): Promise<IIncomeResponseDTO[]> {
-        const result = await this.incomeRepository.getIncomesById(userId);
+    public async getIncomes(userId: string, description: string): Promise<IIncomeResponseDTO[]> {
+        const result = await this.incomeRepository.getIncomesById(userId, description);
 
         if (!result) throw new NotFoundError("Receitas não localizadas");
 
