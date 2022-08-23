@@ -58,7 +58,8 @@ export class ExpenseController implements IExpenseController {
             if (req.id === undefined)
                 throw new UnauthorizedError("Usuário não autorizado");
 
-            const result = await this.expenseService.getExpenses(req.id);
+            const { description } = req.query;
+            const result = await this.expenseService.getExpenses(req.id, description?.toString() || "");
 
             const response: IResponse = {
                 ok: true,

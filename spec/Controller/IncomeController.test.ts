@@ -4,7 +4,8 @@ import { incomeResponseMock } from "../mocks/dto/IncomeMock";
 import { getMockReq, getMockRes } from "@jest-mock/express";
 
 const incomeControllerTest = new IncomeController(new IncomeServiceMock());
-const req = getMockReq({ id: "1", params: { id: "1" } });
+const req = getMockReq({ id: "1", params: { id: "1" }});
+const reqWithQuery = getMockReq({ id: "1", params: { id: "1" }, query: { description: "test"} });
 const reqUnauthorized = getMockReq();
 const { res } = getMockRes();
 
@@ -129,6 +130,17 @@ describe("IncomeController", () => {
     describe("getIncomes", () => {
         it("should return an array of income when getIncomes susscefully", async () => {
             await incomeControllerTest.getIncomes(req, res);
+            expect(res.status).toBeCalledWith(200);
+            expect(res.json).toBeCalledWith({
+                ok: true,
+                status: 200,
+                message: "Receitas retornadas com sucesso",
+                data: [incomeResponseMock],
+            });
+        });
+
+        it("should return an array of income when getIncomes susscefully with query", async () => {
+            await incomeControllerTest.getIncomes(reqWithQuery, res);
             expect(res.status).toBeCalledWith(200);
             expect(res.json).toBeCalledWith({
                 ok: true,

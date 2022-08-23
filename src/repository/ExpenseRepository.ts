@@ -1,4 +1,4 @@
-import { DeleteResult } from "typeorm";
+import { DeleteResult, Like } from "typeorm";
 import { AppDataSource } from "../datasource";
 import { ISaveExpenseDTO } from "../dto/ExpenseDTO";
 import { Expense } from "../entity";
@@ -20,7 +20,7 @@ export class ExpenseRepository implements IExpenseRepository {
         }
     }
 
-    public async getExpensesById(id: string): Promise<Expense[] | null> {
+    public async getExpensesById(id: string, description: string): Promise<Expense[] | null> {
         try {
             return await this.expenseRepository.find({
                 relations: {
@@ -30,6 +30,7 @@ export class ExpenseRepository implements IExpenseRepository {
                     user: {
                         id: id,
                     },
+                    description: Like(`%${description}%`)
                 },
             });
         } catch (error: any) {

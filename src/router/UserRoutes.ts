@@ -2,7 +2,7 @@ import { Router, Request, Response } from "express";
 import { auth } from "../middleware/Auth";
 import { UserController } from "../controller";
 import { UserRepository } from "../repository";
-import { UserService } from "../service";
+import { UserService } from "../service/UserService";
 import {
     validateCreateUserSchema,
     validateLoginUserSchema,

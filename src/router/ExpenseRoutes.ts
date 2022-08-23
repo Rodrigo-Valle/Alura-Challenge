@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
 import { auth } from "../middleware/Auth";
 import { ExpenseController } from "../controller";
-import { ExpenseService } from "../service";
+import { ExpenseService } from "../service/ExpenseService";
 import { ExpenseRepository, UserRepository } from "../repository";
 import {
     validateCreateExpenseSchema,

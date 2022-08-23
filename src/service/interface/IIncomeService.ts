@@ -10,7 +10,7 @@ export interface IIncomeService {
         createIncomeData: ISaveIncomeDTO,
         userId: string
     ): Promise<IIncomeResponseDTO>;
-    getIncomes(userId: string): Promise<IIncomeResponseDTO[]>;
+    getIncomes(userId: string, description?: string): Promise<IIncomeResponseDTO[]>;
     getIncome(id: string, userId: string): Promise<IIncomeResponseDTO>;
     updateIncome(
         id: string,

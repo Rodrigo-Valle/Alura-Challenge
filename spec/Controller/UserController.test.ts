@@ -5,7 +5,7 @@ import { tokenResponseMock, userResponseMock } from "../mocks/dto/UserMock";
 import { getMockReq, getMockRes } from "@jest-mock/express";
 
 const userControllerTest = new UserController(new UserServiceMock());
-const req = getMockReq({ id: "1", params: { id: "1" } });
+const req = getMockReq({ id: "1", params: { id: "1" }});
 const reqUnauthorized = getMockReq();
 const { res } = getMockRes();
 
