@@ -1,6 +1,14 @@
 import { User } from "../entity";
 import { ExpenseCategory } from "../entity/enum/ExpenseCategoryEnum";
 
+interface IExpenseResponseDTO {
+    id: string;
+    description: string;
+    value: number;
+    date: Date;
+    category: string;
+}
+
 interface ISaveExpenseDTO {
     description: string;
     value: number;
@@ -8,14 +16,6 @@ interface ISaveExpenseDTO {
     user?: User;
     id?: string;
     category?: ExpenseCategory;
-}
-
-interface IExpenseResponseDTO {
-    id: string;
-    description: string;
-    value: number;
-    date: Date;
-    category: string;
 }
 
 interface IUpdateExpenseDTO {

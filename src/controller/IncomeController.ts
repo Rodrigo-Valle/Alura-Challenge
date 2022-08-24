@@ -14,8 +14,7 @@ export class IncomeController implements IIncomeController {
 
     public async createIncome(req: Request, res: Response): Promise<Response> {
         try {
-            if (req.id === undefined)
-                throw new UnauthorizedError("Usuário não autorizado");
+            if (req.id === undefined) throw new UnauthorizedError("Usuário não autorizado");
 
             const result = await this.incomeService.createIncome(req.body, req.id);
 
@@ -32,52 +31,9 @@ export class IncomeController implements IIncomeController {
         }
     }
 
-    public async getIncome(req: Request, res: Response): Promise<Response> {
-        try {
-            if (req.id === undefined)
-                throw new UnauthorizedError("Usuário não autorizado");
-
-            const { id } = req.params;
-            const result = await this.incomeService.getIncome(id, req.id);
-
-            const response: IResponse = {
-                ok: true,
-                status: 200,
-                message: "Receita retornada com sucesso",
-                data: result,
-            };
-
-            return res.status(200).json(response);
-        } catch (error) {
-            return ProcessError(res, error);
-        }
-    }
-
-    public async getIncomes(req: Request, res: Response): Promise<Response> {
-        try {
-            if (req.id === undefined)
-                throw new UnauthorizedError("Usuário não autorizado");
-            
-            const { description } = req.query;
-            const result = await this.incomeService.getIncomes(req.id, description?.toString() || "");
-
-            const response: IResponse = {
-                ok: true,
-                status: 200,
-                message: "Receitas retornadas com sucesso",
-                data: result,
-            };
-
-            return res.status(200).json(response);
-        } catch (error) {
-            return ProcessError(res, error);
-        }
-    }
-
     public async updateIncome(req: Request, res: Response): Promise<Response> {
         try {
-            if (req.id === undefined)
-                throw new UnauthorizedError("Usuário não autorizado");
+            if (req.id === undefined) throw new UnauthorizedError("Usuário não autorizado");
 
             const { id } = req.params;
 
@@ -98,8 +54,7 @@ export class IncomeController implements IIncomeController {
 
     public async deleteIncome(req: Request, res: Response): Promise<Response> {
         try {
-            if (req.id === undefined)
-                throw new UnauthorizedError("Usuário não autorizado");
+            if (req.id === undefined) throw new UnauthorizedError("Usuário não autorizado");
 
             const { id } = req.params;
 
@@ -109,6 +64,68 @@ export class IncomeController implements IIncomeController {
                 ok: true,
                 status: 200,
                 message: "Receita deletada com sucesso",
+                data: result,
+            };
+
+            return res.status(200).json(response);
+        } catch (error) {
+            return ProcessError(res, error);
+        }
+    }
+
+    public async getIncome(req: Request, res: Response): Promise<Response> {
+        try {
+            if (req.id === undefined) throw new UnauthorizedError("Usuário não autorizado");
+
+            const { id } = req.params;
+            const result = await this.incomeService.getIncome(id, req.id);
+
+            const response: IResponse = {
+                ok: true,
+                status: 200,
+                message: "Receita retornada com sucesso",
+                data: result,
+            };
+
+            return res.status(200).json(response);
+        } catch (error) {
+            return ProcessError(res, error);
+        }
+    }
+
+    public async getIncomes(req: Request, res: Response): Promise<Response> {
+        try {
+            if (req.id === undefined) throw new UnauthorizedError("Usuário não autorizado");
+
+            const { description } = req.query;
+            const result = await this.incomeService.getIncomes(req.id, description?.toString() || "");
+
+            const response: IResponse = {
+                ok: true,
+                status: 200,
+                message: "Receitas retornadas com sucesso",
+                data: result,
+            };
+
+            return res.status(200).json(response);
+        } catch (error) {
+            return ProcessError(res, error);
+        }
+    }
+
+    public async getIncomesByDate(req: Request, res: Response): Promise<Response> {
+        try {
+            if (req.id === undefined) throw new UnauthorizedError("Usuário não autorizado");
+
+            const month = parseInt(req.params.month);
+            const year = parseInt(req.params.year);
+
+            const result = await this.incomeService.getIncomesByDate(req.id, year, month);
+
+            const response: IResponse = {
+                ok: true,
+                status: 200,
+                message: "Receitas retornadas com sucesso",
                 data: result,
             };
 

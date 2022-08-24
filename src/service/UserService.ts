@@ -1,10 +1,4 @@
-import {
-    ILoginDTO,
-    ISaveUserDTO,
-    ITokenResponseDTO,
-    IUpdateUserDTO,
-    IUserResponseDTO,
-} from "../dto/UserDTO";
+import { ILoginDTO, ISaveUserDTO, ITokenResponseDTO, IUpdateUserDTO, IUserResponseDTO } from "../dto/UserDTO";
 import { IUserRepository } from "../repository/interface/IUserRepository";
 import { IUserService } from "./interface/IUserService";
 import bcryptjs from "bcryptjs";
@@ -54,25 +48,7 @@ export class UserService implements IUserService {
         return token;
     }
 
-    public async getUser(id: string): Promise<IUserResponseDTO> {
-        const result = await this.userRepository.getUserById(id);
-
-        if (!result) throw new NotFoundError("Usuário não localizado");
-
-        const response: IUserResponseDTO = {
-            id: result.id,
-            cpf: result.cpf,
-            name: result.name,
-            email: result.email,
-        };
-
-        return response;
-    }
-
-    public async updateUser(
-        id: string,
-        updateUserData: IUpdateUserDTO
-    ): Promise<IUserResponseDTO> {
+    public async updateUser(id: string, updateUserData: IUpdateUserDTO): Promise<IUserResponseDTO> {
         const user = await this.userRepository.getUserById(id);
 
         if (!user) throw new NotFoundError("Usuário não localizado");
@@ -80,9 +56,7 @@ export class UserService implements IUserService {
         const updatedUser: ISaveUserDTO = {
             name: updateUserData.name ? updateUserData.name : user.name,
             email: updateUserData.email ? updateUserData.email : user.email,
-            password: updateUserData.password
-                ? await bcryptjs.hash(updateUserData.password, 8)
-                : user.password,
+            password: updateUserData.password ? await bcryptjs.hash(updateUserData.password, 8) : user.password,
             id: user.id,
             cpf: user.cpf,
         };
@@ -102,13 +76,24 @@ export class UserService implements IUserService {
     public async deleteUser(id: string): Promise<DeleteResult> {
         const result = await this.userRepository.deleteUser(id);
 
-        if (
-            result.affected === null ||
-            result.affected === undefined ||
-            result.affected < 1
-        )
+        if (result.affected === null || result.affected === undefined || result.affected < 1)
             throw new NotFoundError("Usuário não localizado");
 
         return result;
+    }
+
+    public async getUser(id: string): Promise<IUserResponseDTO> {
+        const result = await this.userRepository.getUserById(id);
+
+        if (!result) throw new NotFoundError("Usuário não localizado");
+
+        const response: IUserResponseDTO = {
+            id: result.id,
+            cpf: result.cpf,
+            name: result.name,
+            email: result.email,
+        };
+
+        return response;
     }
 }

@@ -5,7 +5,8 @@ import { getMockReq, getMockRes } from "@jest-mock/express";
 
 const expenseControllerTest = new ExpenseController(new ExpenseServiceMock());
 const req = getMockReq({ id: "1", params: { id: "1" } });
-const reqWithQuery = getMockReq({ id: "1", params: { id: "1" }, query: { description: "test"} });
+const reqWithQuery = getMockReq({ id: "1", params: { id: "1" }, query: { description: "test" } });
+const reqWithDate = getMockReq({ id: "1", params: { id: "1", year: "2000", month: "01" } });
 const reqUnauthorized = getMockReq();
 const { res } = getMockRes();
 
@@ -14,8 +15,8 @@ describe("ExpenseController", () => {
         jest.resetAllMocks();
     });
 
-    describe("CreateExpense", () => {
-        it("should return a Expense when create susscefully", async () => {
+    describe("createExpense", () => {
+        it("should return a Expense when createExpense susscefully", async () => {
             await expenseControllerTest.createExpense(req, res);
             expect(res.status).toBeCalledWith(201);
             expect(res.json).toBeCalledWith({
@@ -26,12 +27,12 @@ describe("ExpenseController", () => {
             });
         });
 
-        it("should return a error when user is not logged", async () => {
+        it("should return a error when createExpense is not logged", async () => {
             await expenseControllerTest.createExpense(reqUnauthorized, res);
             expect(res.status).toBeCalledWith(401);
         });
 
-        it("should treat an error when create fails", async () => {
+        it("should treat an error when createExpense fails", async () => {
             jest.spyOn(ExpenseServiceMock.prototype, "createExpense").mockRejectedValue(
                 new Error("create Expense error")
             );
@@ -42,7 +43,7 @@ describe("ExpenseController", () => {
     });
 
     describe("updateExpense", () => {
-        it("should return a Expense when update susscefully", async () => {
+        it("should return a Expense when updateExpense susscefully", async () => {
             await expenseControllerTest.updateExpense(req, res);
             expect(res.status).toBeCalledWith(200);
             expect(res.json).toBeCalledWith({
@@ -53,7 +54,7 @@ describe("ExpenseController", () => {
             });
         });
 
-        it("should return a error when user is not logged", async () => {
+        it("should return a error when updateExpense is not logged", async () => {
             await expenseControllerTest.updateExpense(reqUnauthorized, res);
             expect(res.status).toBeCalledWith(401);
         });
@@ -69,7 +70,7 @@ describe("ExpenseController", () => {
     });
 
     describe("deleteExpense", () => {
-        it("should return a DeleteResponse when delete susscefully", async () => {
+        it("should return a DeleteResponse when deleteExpense susscefully", async () => {
             await expenseControllerTest.deleteExpense(req, res);
             expect(res.status).toBeCalledWith(200);
             expect(res.json).toBeCalledWith({
@@ -85,7 +86,7 @@ describe("ExpenseController", () => {
             });
         });
 
-        it("should return a error when user is not logged", async () => {
+        it("should return a error when deleteExpense is not logged", async () => {
             await expenseControllerTest.deleteExpense(reqUnauthorized, res);
             expect(res.status).toBeCalledWith(401);
         });
@@ -112,15 +113,13 @@ describe("ExpenseController", () => {
             });
         });
 
-        it("should return a error when user is not logged", async () => {
+        it("should return a error when getExpense is not logged", async () => {
             await expenseControllerTest.getExpense(reqUnauthorized, res);
             expect(res.status).toBeCalledWith(401);
         });
 
         it("should treat an error when getExpense fails", async () => {
-            jest.spyOn(ExpenseServiceMock.prototype, "getExpense").mockRejectedValue(
-                new Error("Get Expense error")
-            );
+            jest.spyOn(ExpenseServiceMock.prototype, "getExpense").mockRejectedValue(new Error("Get Expense error"));
 
             await expenseControllerTest.getExpense(req, res);
             expect(res.status).toBeCalledWith(500);
@@ -139,17 +138,42 @@ describe("ExpenseController", () => {
             });
         });
 
-        it("should return a error when user is not logged", async () => {
+        it("should return a error when getExpenses is not logged", async () => {
             await expenseControllerTest.getExpenses(reqUnauthorized, res);
             expect(res.status).toBeCalledWith(401);
         });
 
         it("should treat an error when getExpenses fails", async () => {
-            jest.spyOn(ExpenseServiceMock.prototype, "getExpenses").mockRejectedValue(
+            jest.spyOn(ExpenseServiceMock.prototype, "getExpenses").mockRejectedValue(new Error("Get Expenses error"));
+
+            await expenseControllerTest.getExpenses(req, res);
+            expect(res.status).toBeCalledWith(500);
+        });
+    });
+
+    describe("getExpensesByDate", () => {
+        it("should return an array of Expense when getExpensesByDate susscefully", async () => {
+            await expenseControllerTest.getExpensesByDate(reqWithDate, res);
+            expect(res.status).toBeCalledWith(200);
+            expect(res.json).toBeCalledWith({
+                ok: true,
+                status: 200,
+                message: "Despesas retornadas com sucesso",
+                data: [expenseResponseMock],
+            });
+        });
+
+        it("should return a error when getExpensesByDate is not logged", async () => {
+            await expenseControllerTest.getExpensesByDate(reqUnauthorized, res);
+            expect(res.status).toBeCalledWith(401);
+        });
+
+        it("should treat an error when getExpensesByDate fails", async () => {
+            jest.spyOn(ExpenseServiceMock.prototype, "getExpensesByDate").mockRejectedValue(
                 new Error("Get Expenses error")
             );
 
-            await expenseControllerTest.getExpenses(req, res);
+            await expenseControllerTest.getExpensesByDate(reqWithDate, res);
             expect(res.status).toBeCalledWith(500);
         });
     });

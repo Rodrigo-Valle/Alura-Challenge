@@ -9,18 +9,6 @@ export class UserRepositoryMock implements IUserRepository {
         return returnUserMock;
     }
 
-    public async getUserByEmail(email: string): Promise<User | null> {
-        if (email !== "test@test.com") return null;
-
-        return returnUserMock;
-    }
-
-    public async getUserById(id: string): Promise<User | null> {
-        if (id !== "1") return null;
-
-        return returnUserMock;
-    }
-
     public async deleteUser(id: string): Promise<DeleteResult> {
         const deleteResult = {} as unknown as DeleteResult;
         if (id !== "1") {
@@ -30,5 +18,17 @@ export class UserRepositoryMock implements IUserRepository {
 
         deleteResult.affected = 1;
         return deleteResult;
+    }
+
+    public async getUserById(id: string): Promise<User | null> {
+        if (id !== "1") return null;
+
+        return returnUserMock;
+    }
+
+    public async getUserByEmail(email: string): Promise<User | null> {
+        if (email !== "test@test.com") return null;
+
+        return returnUserMock;
     }
 }

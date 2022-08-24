@@ -23,9 +23,9 @@ export class Expense {
     @Column({
         type: "enum",
         enum: ExpenseCategory,
-        default: ExpenseCategory.Outras
+        default: ExpenseCategory.Outras,
     })
-    category: ExpenseCategory
+    category: ExpenseCategory;
 
     constructor(description: string, value: number, date: Date, user: User, id?: string, category?: string) {
         this.description = description;

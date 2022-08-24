@@ -1,4 +1,4 @@
-import { DeleteResult, Like } from "typeorm";
+import { DeleteResult, Like, Between } from "typeorm";
 import { AppDataSource } from "../datasource";
 import { ISaveExpenseDTO } from "../dto/ExpenseDTO";
 import { Expense } from "../entity";
@@ -20,29 +20,28 @@ export class ExpenseRepository implements IExpenseRepository {
         }
     }
 
-    public async getExpensesById(id: string, description: string): Promise<Expense[] | null> {
+    public async deleteExpense(id: string, userId: string): Promise<DeleteResult> {
         try {
-            return await this.expenseRepository.find({
-                relations: {
-                    user: true,
-                },
-                where: {
-                    user: {
-                        id: id,
-                    },
-                    description: Like(`%${description}%`)
-                },
-            });
+            return await this.expenseRepository
+                .createQueryBuilder()
+                .delete()
+                .from("Expense")
+                .where("id = :expenseId", { expenseId: id })
+                .andWhere("userId = :userId", { userId: userId })
+                .execute();
         } catch (error: any) {
-            throw new DataBaseError("Erro ao buscar despesa", error, error.code);
+            throw new DataBaseError("Erro ao deletar despesa", error, error.code);
         }
     }
 
     public async getExpenseById(id: string, userId: string): Promise<Expense | null> {
         try {
             return await this.expenseRepository.findOne({
-                relations: {
-                    user: true,
+                select: {
+                    id: true,
+                    description: true,
+                    value: true,
+                    date: true,
                 },
                 where: {
                     id: id,
@@ -56,17 +55,45 @@ export class ExpenseRepository implements IExpenseRepository {
         }
     }
 
-    public async deleteExpense(id: string, userId: string): Promise<DeleteResult> {
+    public async getExpensesById(id: string, description: string): Promise<Expense[] | null> {
         try {
-            return await this.expenseRepository
-                .createQueryBuilder()
-                .delete()
-                .from("Expense")
-                .where("id = :expenseId", { expenseId: id })
-                .andWhere("userId = :userId", { userId: userId })
-                .execute();
+            return await this.expenseRepository.find({
+                select: {
+                    id: true,
+                    description: true,
+                    value: true,
+                    date: true,
+                },
+                where: {
+                    user: {
+                        id: id,
+                    },
+                    description: Like(`%${description}%`),
+                },
+            });
         } catch (error: any) {
-            throw new DataBaseError("Erro ao deletar despesa", error, error.code);
+            throw new DataBaseError("Erro ao buscar despesa", error, error.code);
+        }
+    }
+
+    public async getExpensesByDate(id: string, year: number, month: number): Promise<Expense[] | null> {
+        try {
+            return await this.expenseRepository.find({
+                select: {
+                    id: true,
+                    description: true,
+                    value: true,
+                    date: true,
+                },
+                where: {
+                    user: {
+                        id: id,
+                    },
+                    date: Between(new Date(year, month - 1, 1), new Date(year, month, 0)),
+                },
+            });
+        } catch (error: any) {
+            throw new DataBaseError("Erro ao buscar despesa", error, error.code);
         }
     }
 }
