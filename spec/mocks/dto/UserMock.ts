@@ -1,9 +1,4 @@
-import {
-    ISaveUserDTO,
-    ITokenResponseDTO,
-    IUpdateUserDTO,
-    IUserResponseDTO,
-} from "../../../src/dto/UserDTO";
+import { ISaveUserDTO, ITokenResponseDTO, IUpdateUserDTO, IUserResponseDTO } from "../../../src/dto/UserDTO";
 import { User } from "../../../src/entity";
 
 const createUserMock: ISaveUserDTO = {
@@ -39,10 +34,4 @@ const tokenResponseMock: ITokenResponseDTO = {
     token: "token",
 };
 
-export {
-    tokenResponseMock,
-    userResponseMock,
-    returnUserMock,
-    updateUserMock,
-    createUserMock,
-};
+export { tokenResponseMock, userResponseMock, returnUserMock, updateUserMock, createUserMock };

@@ -3,54 +3,11 @@ import { auth } from "../middleware/Auth";
 import { UserController } from "../controller";
 import { UserRepository } from "../repository";
 import { UserService } from "../service/UserService";
-import {
-    validateCreateUserSchema,
-    validateLoginUserSchema,
-    validateUpdateUserSchema,
-} from "../schema";
+import { validateCreateUserSchema, validateLoginUserSchema, validateUpdateUserSchema } from "../schema";
 
 const userController = new UserController(new UserService(new UserRepository()));
 
 const userRoutes = Router();
-
-/**
- * @openapi
- * '/user':
- *  get:
- *     tags:
- *     - User
- *     summary: Get a user
- *     security:
- *       - bearerAuth: []
- *     responses:
- *      200:
- *        description: Success
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/GetUserResponse'
- *      400:
- *        description: Bad equest
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/ValidationError'
- *      401:
- *        description: Unauthorized
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/UnauthorizedError'
- *      404:
- *        description: Not Found
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/NotFoundError'
- */
-userRoutes.get("", auth, (req: Request, res: Response) =>
-    userController.getUser(req, res)
-);
 
 /**
  * @openapi
@@ -122,9 +79,7 @@ userRoutes.post("/sigin", validateCreateUserSchema, (req: Request, res: Response
  *            schema:
  *              $ref: '#/components/schemas/NotFoundError'
  */
-userRoutes.post("/login", validateLoginUserSchema, (req: Request, res: Response) =>
-    userController.loginUser(req, res)
-);
+userRoutes.post("/login", validateLoginUserSchema, (req: Request, res: Response) => userController.loginUser(req, res));
 
 /**
  * @openapi
@@ -212,8 +167,43 @@ userRoutes.patch("", auth, validateUpdateUserSchema, (req: Request, res: Respons
  *            schema:
  *              $ref: '#/components/schemas/DataBaseError'
  */
-userRoutes.delete("", auth, (req: Request, res: Response) =>
-    userController.deleteUser(req, res)
-);
+userRoutes.delete("", auth, (req: Request, res: Response) => userController.deleteUser(req, res));
+
+/**
+ * @openapi
+ * '/user':
+ *  get:
+ *     tags:
+ *     - User
+ *     summary: Get a user
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *      200:
+ *        description: Success
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/GetUserResponse'
+ *      400:
+ *        description: Bad equest
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/ValidationError'
+ *      401:
+ *        description: Unauthorized
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/UnauthorizedError'
+ *      404:
+ *        description: Not Found
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/NotFoundError'
+ */
+userRoutes.get("", auth, (req: Request, res: Response) => userController.getUser(req, res));
 
 export default userRoutes;

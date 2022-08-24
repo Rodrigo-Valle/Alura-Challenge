@@ -6,5 +6,5 @@ export enum ExpenseCategory {
     Educacao = "educacao",
     Lazer = "lazer",
     Imprevistos = "imprevistos",
-    Outras = "outras"
+    Outras = "outras",
 }

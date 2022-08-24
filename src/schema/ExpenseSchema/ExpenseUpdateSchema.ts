@@ -9,9 +9,14 @@ const expenseUpdateSchema = joi.object({
     description: joi.string().optional(),
     value: joi.number().optional(),
     date: joi.date().optional(),
-    category: joi.string().valid(...Object.values(ExpenseCategory)).optional().messages({
-        "any.only": "{#label} precisa ser um de: [alimentacao, saude, moradia, transporte, educacao, lazer, imprevistos, outras]"
-    })
+    category: joi
+        .string()
+        .valid(...Object.values(ExpenseCategory))
+        .optional()
+        .messages({
+            "any.only":
+                "{#label} precisa ser um de: [alimentacao, saude, moradia, transporte, educacao, lazer, imprevistos, outras]",
+        }),
 });
 
 export const validateUpdateExpenseSchema = async (

@@ -3,14 +3,9 @@ import { auth } from "../middleware/Auth";
 import { ExpenseController } from "../controller";
 import { ExpenseService } from "../service/ExpenseService";
 import { ExpenseRepository, UserRepository } from "../repository";
-import {
-    validateCreateExpenseSchema,
-    validateUpdateExpenseSchema,
-} from "../schema/index";
+import { validateCreateExpenseSchema, validateUpdateExpenseSchema } from "../schema/index";
 
-const expenseController = new ExpenseController(
-    new ExpenseService(new ExpenseRepository(), new UserRepository())
-);
+const expenseController = new ExpenseController(new ExpenseService(new ExpenseRepository(), new UserRepository()));
 
 const expenseRoutes = Router();
 
@@ -57,88 +52,6 @@ const expenseRoutes = Router();
  */
 expenseRoutes.post("", auth, validateCreateExpenseSchema, (req: Request, res: Response) =>
     expenseController.createExpense(req, res)
-);
-
-/**
- * @openapi
- * '/expense/{id}':
- *  get:
- *     tags:
- *     - Expense
- *     summary: Get a Expense
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *     responses:
- *      200:
- *        description: Success
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/GetExpensesResponse'
- *      401:
- *        description: Unauthorized
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/UnauthorizedError'
- *      404:
- *        description: Not Found
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/NotFoundError'
- *      500:
- *        description: Internal Server Error
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/DataBaseError'
- */
-expenseRoutes.get("/:id", auth, (req: Request, res: Response) =>
-    expenseController.getExpense(req, res)
-);
-
-/**
- * @openapi
- * '/expense':
- *  get:
- *     tags:
- *     - Expense
- *     summary: Get a list of Expenses
- *     security:
- *       - bearerAuth: []
- *     responses:
- *      200:
- *        description: Success
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/GetExpensesResponse'
- *      401:
- *        description: Unauthorized
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/UnauthorizedError'
- *      404:
- *        description: Not Found
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/NotFoundError'
- *      500:
- *        description: Internal Server Error
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/DataBaseError'
- */
-expenseRoutes.get("", auth, (req: Request, res: Response) =>
-    expenseController.getExpenses(req, res)
 );
 
 /**
@@ -193,11 +106,8 @@ expenseRoutes.get("", auth, (req: Request, res: Response) =>
  *            schema:
  *              $ref: '#/components/schemas/DataBaseError'
  */
-expenseRoutes.patch(
-    "/:id",
-    auth,
-    validateUpdateExpenseSchema,
-    (req: Request, res: Response) => expenseController.updateExpense(req, res)
+expenseRoutes.patch("/:id", auth, validateUpdateExpenseSchema, (req: Request, res: Response) =>
+    expenseController.updateExpense(req, res)
 );
 
 /**
@@ -240,8 +150,134 @@ expenseRoutes.patch(
  *            schema:
  *              $ref: '#/components/schemas/DataBaseError'
  */
-expenseRoutes.delete("/:id", auth, (req: Request, res: Response) =>
-    expenseController.deleteExpense(req, res)
+expenseRoutes.delete("/:id", auth, (req: Request, res: Response) => expenseController.deleteExpense(req, res));
+
+/**
+ * @openapi
+ * '/expense':
+ *  get:
+ *     tags:
+ *     - Expense
+ *     summary: Get a list of Expenses
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: description
+ *         description: Descrição da despesa
+ *     responses:
+ *      200:
+ *        description: Success
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/GetExpensesResponse'
+ *      401:
+ *        description: Unauthorized
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/UnauthorizedError'
+ *      404:
+ *        description: Not Found
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/NotFoundError'
+ *      500:
+ *        description: Internal Server Error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/DataBaseError'
+ */
+expenseRoutes.get("", auth, (req: Request, res: Response) => expenseController.getExpenses(req, res));
+
+/**
+ * @openapi
+ * '/expense/{id}':
+ *  get:
+ *     tags:
+ *     - Expense
+ *     summary: Get a Expense
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *     responses:
+ *      200:
+ *        description: Success
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/GetExpensesResponse'
+ *      401:
+ *        description: Unauthorized
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/UnauthorizedError'
+ *      404:
+ *        description: Not Found
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/NotFoundError'
+ *      500:
+ *        description: Internal Server Error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/DataBaseError'
+ */
+expenseRoutes.get("/:id", auth, (req: Request, res: Response) => expenseController.getExpense(req, res));
+
+/**
+ * @openapi
+ * '/expense/{year}/{month}':
+ *  get:
+ *     tags:
+ *     - Expense
+ *     summary: Get a Expense by Date
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: year
+ *         required: true
+ *       - in: path
+ *         name: month
+ *         required: true
+ *     responses:
+ *      200:
+ *        description: Success
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/GetExpensesResponse'
+ *      401:
+ *        description: Unauthorized
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/UnauthorizedError'
+ *      404:
+ *        description: Not Found
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/NotFoundError'
+ *      500:
+ *        description: Internal Server Error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/DataBaseError'
+ */
+expenseRoutes.get("/:year/:month", auth, (req: Request, res: Response) =>
+    expenseController.getExpensesByDate(req, res)
 );
 
 export default expenseRoutes;

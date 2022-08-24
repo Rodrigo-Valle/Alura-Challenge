@@ -2,11 +2,7 @@ import { Request, NextFunction } from "express";
 import Joi, { Schema } from "joi";
 import { ValidationError } from "./exceptions";
 
-export const validateBody = async (
-    req: Request,
-    next: NextFunction,
-    schema: Schema
-): Promise<void | any> => {
+export const validateBody = async (req: Request, next: NextFunction, schema: Schema): Promise<void | any> => {
     try {
         if (Object.keys(req.body).length === 0) throw new Error("Corpo é obrigatório");
 

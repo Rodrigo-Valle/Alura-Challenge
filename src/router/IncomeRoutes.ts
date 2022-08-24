@@ -5,9 +5,7 @@ import { IncomeRepository, UserRepository } from "../repository";
 import { IncomeService } from "../service/IncomeService";
 import { validateCreateIncomeSchema, validateUpdateIncomeSchema } from "../schema/index";
 
-const incomeController = new IncomeController(
-    new IncomeService(new IncomeRepository(), new UserRepository())
-);
+const incomeController = new IncomeController(new IncomeService(new IncomeRepository(), new UserRepository()));
 
 const incomeRoutes = Router();
 
@@ -54,88 +52,6 @@ const incomeRoutes = Router();
  */
 incomeRoutes.post("", auth, validateCreateIncomeSchema, (req: Request, res: Response) =>
     incomeController.createIncome(req, res)
-);
-
-/**
- * @openapi
- * '/income/{id}':
- *  get:
- *     tags:
- *     - Income
- *     summary: Get a Income
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *     responses:
- *      200:
- *        description: Success
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/GetIncomesResponse'
- *      401:
- *        description: Unauthorized
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/UnauthorizedError'
- *      404:
- *        description: Not Found
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/NotFoundError'
- *      500:
- *        description: Internal Server Error
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/DataBaseError'
- */
-incomeRoutes.get("/:id", auth, (req: Request, res: Response) =>
-    incomeController.getIncome(req, res)
-);
-
-/**
- * @openapi
- * '/income':
- *  get:
- *     tags:
- *     - Income
- *     summary: Get a list of Incomes
- *     security:
- *       - bearerAuth: []
- *     responses:
- *      200:
- *        description: Success
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/GetIncomesResponse'
- *      401:
- *        description: Unauthorized
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/UnauthorizedError'
- *      404:
- *        description: Not Found
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/NotFoundError'
- *      500:
- *        description: Internal Server Error
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/DataBaseError'
- */
-incomeRoutes.get("", auth, (req: Request, res: Response) =>
-    incomeController.getIncomes(req, res)
 );
 
 /**
@@ -190,11 +106,8 @@ incomeRoutes.get("", auth, (req: Request, res: Response) =>
  *            schema:
  *              $ref: '#/components/schemas/DataBaseError'
  */
-incomeRoutes.patch(
-    "/:id",
-    auth,
-    validateUpdateIncomeSchema,
-    (req: Request, res: Response) => incomeController.updateIncome(req, res)
+incomeRoutes.patch("/:id", auth, validateUpdateIncomeSchema, (req: Request, res: Response) =>
+    incomeController.updateIncome(req, res)
 );
 
 /**
@@ -237,8 +150,132 @@ incomeRoutes.patch(
  *            schema:
  *              $ref: '#/components/schemas/DataBaseError'
  */
-incomeRoutes.delete("/:id", auth, (req: Request, res: Response) =>
-    incomeController.deleteIncome(req, res)
-);
+incomeRoutes.delete("/:id", auth, (req: Request, res: Response) => incomeController.deleteIncome(req, res));
+
+/**
+ * @openapi
+ * '/income':
+ *  get:
+ *     tags:
+ *     - Income
+ *     summary: Get a list of Incomes
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: description
+ *         description: Descrição da receita
+ *     responses:
+ *      200:
+ *        description: Success
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/GetIncomesResponse'
+ *      401:
+ *        description: Unauthorized
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/UnauthorizedError'
+ *      404:
+ *        description: Not Found
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/NotFoundError'
+ *      500:
+ *        description: Internal Server Error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/DataBaseError'
+ */
+incomeRoutes.get("", auth, (req: Request, res: Response) => incomeController.getIncomes(req, res));
+
+/**
+ * @openapi
+ * '/income/{id}':
+ *  get:
+ *     tags:
+ *     - Income
+ *     summary: Get a Income
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *     responses:
+ *      200:
+ *        description: Success
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/GetIncomesResponse'
+ *      401:
+ *        description: Unauthorized
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/UnauthorizedError'
+ *      404:
+ *        description: Not Found
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/NotFoundError'
+ *      500:
+ *        description: Internal Server Error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/DataBaseError'
+ */
+incomeRoutes.get("/:id", auth, (req: Request, res: Response) => incomeController.getIncome(req, res));
+
+/**
+ * @openapi
+ * '/income/{year}/{month}':
+ *  get:
+ *     tags:
+ *     - Income
+ *     summary: Get a Income by Date
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: year
+ *         required: true
+ *       - in: path
+ *         name: month
+ *         required: true
+ *     responses:
+ *      200:
+ *        description: Success
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/GetIncomesResponse'
+ *      401:
+ *        description: Unauthorized
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/UnauthorizedError'
+ *      404:
+ *        description: Not Found
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/NotFoundError'
+ *      500:
+ *        description: Internal Server Error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/DataBaseError'
+ */
+incomeRoutes.get("/:year/:month", auth, (req: Request, res: Response) => incomeController.getIncomesByDate(req, res));
 
 export default incomeRoutes;

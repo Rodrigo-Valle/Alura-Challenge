@@ -20,11 +20,11 @@ export class UserRepository implements IUserRepository {
         }
     }
 
-    public async getUserByEmail(email: string): Promise<User | null> {
+    public async deleteUser(id: string): Promise<DeleteResult> {
         try {
-            return await this.userRepository.findOneBy({ email: email });
+            return await this.userRepository.delete({ id: id });
         } catch (error: any) {
-            throw new DataBaseError("Erro ao buscar usuário", error, error.code);
+            throw new DataBaseError("Erro ao deletar usuário", error, error.code);
         }
     }
 
@@ -36,11 +36,11 @@ export class UserRepository implements IUserRepository {
         }
     }
 
-    public async deleteUser(id: string): Promise<DeleteResult> {
+    public async getUserByEmail(email: string): Promise<User | null> {
         try {
-            return await this.userRepository.delete({ id: id });
+            return await this.userRepository.findOneBy({ email: email });
         } catch (error: any) {
-            throw new DataBaseError("Erro ao deletar usuário", error, error.code);
+            throw new DataBaseError("Erro ao buscar usuário", error, error.code);
         }
     }
 }
