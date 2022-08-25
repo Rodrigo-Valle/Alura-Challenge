@@ -15,7 +15,7 @@ const userLoginSchema = joi
             .pattern(new RegExp(/^\d{8}$/))
             .messages({
                 "any.required": "Campo senha é obrigatório",
-                "string.pattern.base": "A senha deve possuir 8 numeros",
+                "string.pattern.base": "A senha é composta somente por números e deve possuir 8 numeros",
             }),
     })
     .messages({
