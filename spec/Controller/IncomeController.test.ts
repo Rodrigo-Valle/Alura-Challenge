@@ -11,10 +11,6 @@ const reqUnauthorized = getMockReq();
 const { res } = getMockRes();
 
 describe("IncomeController", () => {
-    afterAll(() => {
-        jest.resetAllMocks();
-    });
-
     describe("CreateIncome", () => {
         it("should return a income when CreateIncome susscefully", async () => {
             await incomeControllerTest.createIncome(req, res);
