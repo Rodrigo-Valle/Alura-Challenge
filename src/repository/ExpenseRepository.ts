@@ -42,6 +42,7 @@ export class ExpenseRepository implements IExpenseRepository {
                     description: true,
                     value: true,
                     date: true,
+                    category: true,
                 },
                 where: {
                     id: id,
@@ -63,6 +64,7 @@ export class ExpenseRepository implements IExpenseRepository {
                     description: true,
                     value: true,
                     date: true,
+                    category: true,
                 },
                 where: {
                     user: {
@@ -84,6 +86,7 @@ export class ExpenseRepository implements IExpenseRepository {
                     description: true,
                     value: true,
                     date: true,
+                    category: true,
                 },
                 where: {
                     user: {
