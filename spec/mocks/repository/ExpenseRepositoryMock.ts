@@ -8,16 +8,7 @@ export class ExpenseRepositoryMock implements IExpenseRepository {
     public async saveExpense(_expense: ISaveExpenseDTO): Promise<Expense> {
         return returnExpenseMock;
     }
-    public async getExpensesById(id: string): Promise<Expense[] | null> {
-        if (id !== "1") return null;
 
-        return [returnExpenseMock];
-    }
-    public async getExpenseById(id: string, _userId: string): Promise<Expense | null> {
-        if (id !== "1") return null;
-
-        return returnExpenseMock;
-    }
     public async deleteExpense(id: string, _userId: string): Promise<DeleteResult> {
         const deleteResult = {} as unknown as DeleteResult;
         if (id !== "1") {
@@ -27,5 +18,23 @@ export class ExpenseRepositoryMock implements IExpenseRepository {
 
         deleteResult.affected = 1;
         return deleteResult;
+    }
+
+    public async getExpenseById(id: string, _userId: string): Promise<Expense | null> {
+        if (id !== "1") return null;
+
+        return returnExpenseMock;
+    }
+
+    public async getExpensesById(id: string): Promise<Expense[] | null> {
+        if (id !== "1") return null;
+
+        return [returnExpenseMock];
+    }
+
+    public async getExpensesByDate(id: string, _year: number, _month: number): Promise<Expense[] | null> {
+        if (id !== "1") return null;
+
+        return [returnExpenseMock];
     }
 }

@@ -3,6 +3,7 @@ import logger from "../utils/logger";
 import UserRoutes from "./UserRoutes";
 import IncomeRoutes from "./IncomeRoutes";
 import ExpenseRoutes from "./ExpenseRoutes";
+import ResumeRoutes from "./ResumeRoutes";
 
 const routes = Router();
 
@@ -18,5 +19,6 @@ routes.get("/status", (_req: Request, res: Response) => {
 routes.use("/user", UserRoutes);
 routes.use("/income", IncomeRoutes);
 routes.use("/expense", ExpenseRoutes);
+routes.use("/resume", ResumeRoutes);
 
 export default routes;

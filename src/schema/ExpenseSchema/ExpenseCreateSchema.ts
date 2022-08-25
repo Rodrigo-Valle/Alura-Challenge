@@ -15,9 +15,14 @@ const expenseCreateSchema = joi.object({
     date: joi.date().required().messages({
         "any.required": "Campo date é obrigatório",
     }),
-    category: joi.string().valid(...Object.values(ExpenseCategory)).optional().messages({
-        "any.only": "{#label} precisa ser um de: [alimentacao, saude, moradia, transporte, educacao, lazer, imprevistos, outras]"
-    })
+    category: joi
+        .string()
+        .valid(...Object.values(ExpenseCategory))
+        .optional()
+        .messages({
+            "any.only":
+                "{#label} precisa ser um de: [alimentacao, saude, moradia, transporte, educacao, lazer, imprevistos, outras]",
+        }),
 });
 
 export const validateCreateExpenseSchema = async (

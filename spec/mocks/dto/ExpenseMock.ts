@@ -8,7 +8,7 @@ const expenseResponseMock: IExpenseResponseDTO = {
     value: 1000,
     date: new Date(2000, 1, 1),
     id: "1",
-    category: ExpenseCategory.Outras
+    category: ExpenseCategory.Outras,
 };
 
 const returnExpenseMock: Expense = {
@@ -17,14 +17,14 @@ const returnExpenseMock: Expense = {
     value: 1000,
     date: new Date(2000, 1, 1),
     user: returnUserMock,
-    category: ExpenseCategory.Outras
+    category: ExpenseCategory.Outras,
 };
 
 const expenseCreateMock: ISaveExpenseDTO = {
     description: "test",
     value: 1000,
     date: new Date(2000, 1, 1),
-    category: ExpenseCategory.Outras
+    category: ExpenseCategory.Outras,
 };
 
 export { expenseCreateMock, returnExpenseMock, expenseResponseMock };

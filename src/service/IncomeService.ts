@@ -15,10 +15,7 @@ export class IncomeService implements IIncomeService {
         this.userRespository = userRespository;
     }
 
-    public async createIncome(
-        createIncomeData: ISaveIncomeDTO,
-        userId: string
-    ): Promise<IIncomeResponseDTO> {
+    public async createIncome(createIncomeData: ISaveIncomeDTO, userId: string): Promise<IIncomeResponseDTO> {
         const user = await this.userRespository.getUserById(userId);
 
         if (!user) throw new NotFoundError("Usuário não localizado");
@@ -26,37 +23,6 @@ export class IncomeService implements IIncomeService {
         createIncomeData.id = uuid();
 
         const result = await this.incomeRepository.saveIncome(createIncomeData);
-
-        const reponse: IIncomeResponseDTO = {
-            id: result.id,
-            description: result.description,
-            value: result.value,
-            date: result.date,
-        };
-
-        return reponse;
-    }
-
-    public async getIncomes(userId: string, description: string): Promise<IIncomeResponseDTO[]> {
-        const result = await this.incomeRepository.getIncomesById(userId, description);
-
-        if (!result) throw new NotFoundError("Receitas não localizadas");
-
-        return result.map((income) => {
-            let incomeMapped: IIncomeResponseDTO = {
-                id: income.id,
-                description: income.description,
-                value: income.value,
-                date: income.date,
-            };
-            return incomeMapped;
-        });
-    }
-
-    public async getIncome(id: string, userId: string): Promise<IIncomeResponseDTO> {
-        const result = await this.incomeRepository.getIncomeById(id, userId);
-
-        if (!result) throw new NotFoundError("Receita não localizada");
 
         const reponse: IIncomeResponseDTO = {
             id: result.id,
@@ -78,9 +44,7 @@ export class IncomeService implements IIncomeService {
         if (!income) throw new NotFoundError("Receita não localizada");
 
         const updatedIncome: ISaveIncomeDTO = {
-            description: updateIncomeData.description
-                ? updateIncomeData.description
-                : income.description,
+            description: updateIncomeData.description ? updateIncomeData.description : income.description,
             value: updateIncomeData.value ? updateIncomeData.value : income.value,
             date: updateIncomeData.date ? updateIncomeData.date : income.date,
             id: income.id,
@@ -102,12 +66,32 @@ export class IncomeService implements IIncomeService {
     public async deleteIncome(id: string, userId: string): Promise<DeleteResult> {
         const result = await this.incomeRepository.deleteIncome(id, userId);
 
-        if (
-            result.affected === null ||
-            result.affected === undefined ||
-            result.affected < 1
-        )
+        if (result.affected === null || result.affected === undefined || result.affected < 1)
             throw new NotFoundError("Receita não localizada");
+
+        return result;
+    }
+
+    public async getIncome(id: string, userId: string): Promise<IIncomeResponseDTO> {
+        const result = await this.incomeRepository.getIncomeById(id, userId);
+
+        if (!result) throw new NotFoundError("Receita não localizada");
+
+        return result;
+    }
+
+    public async getIncomes(userId: string, description: string): Promise<IIncomeResponseDTO[]> {
+        const result = await this.incomeRepository.getIncomesById(userId, description);
+
+        if (!result) throw new NotFoundError("Receitas não localizadas");
+
+        return result;
+    }
+
+    public async getIncomesByDate(userId: string, year: number, month: number): Promise<IIncomeResponseDTO[]> {
+        const result = await this.incomeRepository.getIncomesByDate(userId, year, month);
+
+        if (!result) throw new NotFoundError("Receitas não localizadas");
 
         return result;
     }
